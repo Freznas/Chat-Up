@@ -1,11 +1,11 @@
 package com.example.chatup
-// Chat Up ! Chattapplication with Achievments, Build with MVC Structure.
+// Activity to handle input of user information to create a new User.
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
     }
 }

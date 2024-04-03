@@ -1,11 +1,11 @@
 package com.example.chatup
-// Chat Up ! Chattapplication with Achievments, Build with MVC Structure.
+// Activity to handle finding users and adding friends/Block Users.
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+class SearchUserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_search_user)
     }
 }
