@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Chat Up</string>
+    <string name="reg_view_enter_name">Enter Username</string>
+    <string name="reg_view_password1">Enter password</string>
+    <string name="reg_view_password2">Enter password again</string>
+    <string name="reg_view_register_user">Register user</string>
+    <string name="reg_view_header">Register User</string>
+    <string name="login_view_header">Sign in</string>
+    <string name="login_view_password">Enter Password</string>
+    <string name="login_view_username">Enter Username</string>
+    <string name="login_view_btn_signin">Sign in</string>
+    <string name="btn_return">return</string>
+    <string name="conversation_view_header">Conversations</string>
+    <string name="chat_view_message">Compose your message</string>
+    <string name="chat_view_btn_send">Skicka</string>
+    <string name="search_view_header">Search for user</string>
+    <string name="chat_view_active_conversation">conversation Name</string>
+    <string name="main_view_register_user">Register new user</string>
+    <string name="main_view_login_user">Login with existing user</string>
+    <string name="main_view_header">You better Chat up!</string>
+
 </resources>
