@@ -4,6 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:background="@color/background_blue">
+
+
+    <TextView
+        android:id="@+id/tv_register_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/reg_view_header"
+        android:textSize="@dimen/font_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_reg_password_1"
+        android:layout_width="209dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="100dp"
+        android:hint="@string/reg_view_password1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_reg_name">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/et_reg_password_2"
+        android:layout_width="209dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="380dp"
+        android:hint="@string/reg_view_password2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/et_reg_name"
+        android:layout_width="209dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="100dp"
+        android:hint="@string/reg_view_enter_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_register_header"></EditText>
+
+    <Button
+        android:id="@+id/btn_reg_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="308dp"
+        android:background="@drawable/button_design"
+        android:text="@string/reg_view_register_user"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></Button>
+
+    <Button
+        android:id="@+id/btn_reg_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="272dp"
+        android:layout_marginBottom="308dp"
+        android:background="@drawable/button_design"
+        android:text="@string/btn_return"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
