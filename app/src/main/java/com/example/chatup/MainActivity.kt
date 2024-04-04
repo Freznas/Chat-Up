@@ -1,5 +1,6 @@
 package com.example.chatup
 // Chat Up ! Chattapplication with Achievments, Build with MVC Structure.
+// Actvity to sign in
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.chatup.databinding.ActivityMainBinding
