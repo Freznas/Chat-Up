@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_margin_top">4dp</dimen>
+    <dimen name="logo_height">200dp</dimen>
+    <dimen name="ll_width_signin">300dp</dimen>
+    <dimen name="et_signin_height">60dp</dimen>
+    <dimen name="btn_margin">10dp</dimen>
+</resources>
