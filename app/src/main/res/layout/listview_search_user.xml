@@ -39,7 +39,7 @@
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/content_description_image_listview_chat"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logony" />
 
             <TextView
                 android:id="@+id/search_result_textview"
