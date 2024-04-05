@@ -29,6 +29,7 @@
     <string name="tv_signin_title">Sign In</string>
     <string name="et_signin_username">Username</string>
     <string name="et_signin_password">Password</string>
+    <string name="reg_view_email">Email</string>
 
 
 </resources>

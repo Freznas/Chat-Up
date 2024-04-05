@@ -16,66 +16,76 @@
         android:layout_marginTop="64dp"
         android:text="@string/reg_view_header"
         android:textSize="@dimen/font_header"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/et_reg_password_1"
-        android:layout_width="209dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="100dp"
-        android:hint="@string/reg_view_password1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_reg_name">
 
-    </EditText>
-
-    <EditText
-        android:id="@+id/et_reg_password_2"
-        android:layout_width="209dp"
-        android:layout_height="62dp"
-        android:layout_marginBottom="380dp"
-        android:hint="@string/reg_view_password2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent">
-
-    </EditText>
-
-    <EditText
-        android:id="@+id/et_reg_name"
-        android:layout_width="209dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="100dp"
-        android:hint="@string/reg_view_enter_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_register_header"></EditText>
-
-    <Button
-        android:id="@+id/btn_reg_user"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="308dp"
-        android:background="@drawable/button_design"
-        android:text="@string/reg_view_register_user"
-        android:textColor="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></Button>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277"
+        tools:layout_editor_absoluteX="0dp">
 
-    <Button
-        android:id="@+id/btn_reg_return"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_reg_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_signin_height"
+            android:hint="@string/reg_view_enter_name"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/et_reg_password_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_signin_height"
+            android:hint="@string/reg_view_password1"
+            android:inputType="textPassword"/>
+
+        <EditText
+            android:id="@+id/et_reg_password_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_signin_height"
+            android:hint="@string/reg_view_password2"
+            android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/et_reg_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_signin_height"
+            android:hint="@string/reg_view_email"
+            android:inputType="textEmailAddress"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="272dp"
-        android:layout_marginBottom="308dp"
-        android:background="@drawable/button_design"
-        android:text="@string/btn_return"
-        android:textColor="@color/white"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></Button>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95">
+
+        <Button
+            android:id="@+id/btn_reg_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/reg_view_register_user"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
