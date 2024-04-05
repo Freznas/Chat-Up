@@ -54,6 +54,7 @@
             android:hint="@string/reg_view_password2"
             android:inputType="textPassword"/>
         <EditText
+            android:id="@+id/et_reg_email"
             android:layout_width="match_parent"
             android:layout_height="@dimen/et_signin_height"
             android:hint="@string/reg_view_email"
