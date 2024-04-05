@@ -29,7 +29,11 @@
     <string name="tv_signin_title">Sign In</string>
     <string name="et_signin_username">Username</string>
     <string name="et_signin_password">Password</string>
+
     <string name="profile_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a turpis id eros iaculis facilisis ut vitae leo. Nunc imperdiet gravida dolor a cursus. Phasellus sed quam et lacus ornare cursus. Duis vitae mi vestibulum, laoreet lacus id, gravida nibh. In efficitur tellus ut neque finibus</string>
+
+    <string name="reg_view_email">Email</string>
+
 
 
 </resources>
