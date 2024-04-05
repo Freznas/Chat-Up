@@ -18,9 +18,17 @@
     <string name="main_view_register_user">Register new user</string>
     <string name="main_view_login_user">Login with existing user</string>
     <string name="main_view_header">You better Chat up!</string>
+
     <string name="placeholder_text_listview_chat">Description</string>
     <string name="placeholder_title_listview_chat">Title</string>
     <string name="content_description_image_listview_chat">Profile picture</string>
     <string name="Search_result_text">Username</string>
+
+    <string name="btn_signin_text">Sign In</string>
+    <string name="btn_register_text">Register</string>
+    <string name="tv_signin_title">Sign In</string>
+    <string name="et_signin_username">Username</string>
+    <string name="et_signin_password">Password</string>
+
 
 </resources>

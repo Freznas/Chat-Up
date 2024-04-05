@@ -4,58 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/background_blue">
+    android:background="@color/background_blue"
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="201dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/logo_height"
+        android:layout_marginTop="@dimen/logo_margin_top"
         android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/btn_main_sign_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/iv_slogan" />
 
     <ImageView
         android:id="@+id/iv_slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/logo_margin_top"
         android:src="@drawable/slogan"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_logo">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    </ImageView>
-
-    <Button
-        android:id="@+id/btn_main_register"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="280dp"
-        android:background="@drawable/button_design"
-        android:text="@string/main_view_register_user"
-        android:textColor="@color/white"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.602"
-        app:layout_constraintStart_toEndOf="@+id/btn_main_sign_in"></Button>
-
-    <Button
-        android:id="@+id/btn_main_sign_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginEnd="72dp"
-        android:layout_marginBottom="280dp"
-        android:background="@drawable/button_design"
-        android:text="@string/main_view_login_user"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_logo"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/iv_slogan"
+        app:layout_constraintVertical_bias="0.32"
+        >
+
+        <Button
+            android:id="@+id/btn_signin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/btn_signin_text"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/btn_margin"
+            />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/btn_register_text"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/btn_margin"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_signin"
+        android:layout_width="@dimen/ll_width_signin"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.553">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:text="@string/tv_signin_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_large" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_signin_height"
+            android:hint="@string/et_signin_username"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_signin_height"
+            android:hint="@string/et_signin_password"
+            android:inputType="textPassword" />
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
