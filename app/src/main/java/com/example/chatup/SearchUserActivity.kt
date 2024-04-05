@@ -3,9 +3,7 @@ package com.example.chatup
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.chatup.databinding.ActivitySearchUserBinding
-
 class SearchUserActivity : AppCompatActivity() {
-
     lateinit var binding: ActivitySearchUserBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,5 +11,7 @@ class SearchUserActivity : AppCompatActivity() {
 
         binding = ActivitySearchUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
     }
 }
