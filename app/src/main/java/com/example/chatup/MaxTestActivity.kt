@@ -67,8 +67,8 @@ fun showUsers(users: ArrayList<User>) {
     {
         val name = binding.maxEtName.text.toString()
         val password = binding.maxEtPassword.text.toString()
-
-        val user = User(currentItem!!.id, name, password )
+        val email = binding.maxEtEmail.text.toString()
+        val user = User(currentItem!!.id, name, password, email  )
         println(user.id)
         userDao.updateUser(user)
         userDao.getAllUsers(this)
@@ -79,8 +79,8 @@ fun addUser() {
 
       val name = binding.maxEtName.text.toString()
       val password = binding.maxEtPassword.text.toString()
-
-      val user = User(UUID.randomUUID().toString(), name, password )
+      val email = binding.maxEtEmail.text.toString()
+      val user = User(UUID.randomUUID().toString(), name, password, email )
       userDao.addUser(user)
   } catch (e: Exception) {
       Log.e("Error", e.message.toString())

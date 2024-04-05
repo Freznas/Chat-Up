@@ -42,7 +42,14 @@
             android:hint="Passenworden"
             android:inputType="text"
             android:paddingVertical="20dp" />
-
+        <EditText
+            android:id="@+id/max_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="87dp"
+            android:hint="name"
+            android:inputType="textEmailAddress"
+            android:paddingVertical="20dp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
