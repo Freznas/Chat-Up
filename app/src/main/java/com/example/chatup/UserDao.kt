@@ -1,6 +1,7 @@
 package com.example.chatup
 
 import android.util.Log
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import java.net.URL
 
@@ -32,7 +33,22 @@ class UserDao {
             .addOnFailureListener { log -> Log.e("ERROR", "Failed to add user to firestore") }
     }
     fun updateUser(user: User)
-    {}
+    {
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(user.id)
+        val updates: Map<String, Any>  = hashMapOf(
+            "name" to user.name as Any,
+            "password" to user.password as Any
+        )
+        userRef.update( updates)
+           .addOnSuccessListener {
+               // Update successful
+               println("User document successfully updated!")
+           }
+           .addOnFailureListener { e ->
+               // Handle any errors
+               println("Error updating user document: $e")
+           }
+    }
     fun deleteUser(user: User){
         FirebaseFirestore
             .getInstance()
@@ -57,7 +73,7 @@ class UserDao {
                     val presentation = document.getString(KEY_PRESENTATION)
                     val profilePicture = document.getString(KEY_PROFILEPICTURE)
 
-                    val user = User(id, name, password)
+                    val user = User(id!!, name, password)
                     user.presentation = presentation
                     user.profilePicture = URL(profilePicture)
                     users.add(user)
