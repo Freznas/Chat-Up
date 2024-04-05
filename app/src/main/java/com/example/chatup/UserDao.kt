@@ -9,6 +9,7 @@ class UserDao {
     val KEY_ID ="id"
     val KEY_NAME = "name"
     val KEY_PASSWORD = "password"
+    val KEY_EMAIL = "email"
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
     fun addUser(user: User)
@@ -19,6 +20,7 @@ class UserDao {
         dataToStore[KEY_PASSWORD] = user.password as Any
         dataToStore[KEY_PRESENTATION] = user.presentation as Any
         dataToStore[KEY_PROFILEPICTURE] = user.profilePicture as Any
+        dataToStore[KEY_EMAIL] = user.email as Any
 
         FirebaseFirestore
             .getInstance()
@@ -70,10 +72,11 @@ class UserDao {
                     val id = document.getString(KEY_ID)
                     val name = document.getString(KEY_NAME)
                     val password = document.getString(KEY_PASSWORD)
+                    val email = document.getString(KEY_EMAIL)
                     val presentation = document.getString(KEY_PRESENTATION)
                     val profilePicture = document.getString(KEY_PROFILEPICTURE)
 
-                    val user = User(id!!, name, password)
+                    val user = User(id!!, name, password, email)
                     user.presentation = presentation
                     user.profilePicture = URL(profilePicture)
                     users.add(user)
