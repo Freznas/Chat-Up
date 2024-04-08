@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.chatup.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -31,12 +32,10 @@ class MainActivity : AppCompatActivity() {
         val password = binding.password.text.toString()
          userDao.checkUserCredentials(username, password){ validCredentials ->
              if (validCredentials) {
-                 println("User exist")
                  val intent = Intent(this, ChatActivity::class.java)
                  startActivity(intent)
              } else {
-                 // User does not exist, perform further actions
-                 println("Not valid credantials")
+                 Toast.makeText(this, "invalid username or password! ", Toast.LENGTH_SHORT).show()
              }
          }
     }

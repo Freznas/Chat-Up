@@ -95,12 +95,14 @@ class UserDao {
             .whereEqualTo("name", username )
             .whereEqualTo( "password", password)
             .get().addOnSuccessListener { querySnapshot ->
-                for (document in querySnapshot) {
-                  callback(true)
+                if (querySnapshot.isEmpty) { // No matching documents found
+                    callback(false)
+                } else {// Found document
+                    callback(true)
                 }
             }
-            .addOnFailureListener {
-                callback(false)
+            .addOnFailureListener {exception ->
+                Log.e("Error"," Query failed", exception)
             }
     }
 }
