@@ -3,6 +3,7 @@ package com.example.chatup
 import android.util.Log
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import java.net.URL
 
 class UserDao {
@@ -84,5 +85,24 @@ class UserDao {
                 Log.i("SUCCSESS", " FETCHED USERS FROM FIRESTORE")
                 activity.showUsers(users)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
+    }
+
+    fun checkUserCredentials(username: String, password: String, callback: (Boolean) -> Unit)
+    {
+        val usersCollection = FirebaseFirestore.getInstance().collection("users")
+
+        usersCollection
+            .whereEqualTo("name", username )
+            .whereEqualTo( "password", password)
+            .get().addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) { // No matching documents found
+                    callback(false)
+                } else {// Found document
+                    callback(true)
+                }
+            }
+            .addOnFailureListener {exception ->
+                Log.e("Error"," Query failed", exception)
+            }
     }
 }
