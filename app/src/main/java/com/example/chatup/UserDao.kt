@@ -84,6 +84,7 @@ class UserDao {
                 activity.showUsers(users)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
+//    Function to search for users
     fun searchUsers(query:String,callback:(List<User>)->Unit){
         val users = mutableListOf<User>()
         FirebaseFirestore.getInstance()
@@ -93,6 +94,7 @@ class UserDao {
             .addOnSuccessListener { result ->
                 for (document in result)
                 {
+//                    Fetching user data from firestore document
                     val id = document.getString(KEY_ID)?:""
                     val name =document.getString(KEY_NAME)?:""
                     val password = document.getString(KEY_PASSWORD)?:""
@@ -111,5 +113,7 @@ class UserDao {
                 Log.e("ERROR","Failed to search users")
                 callback(emptyList())
             }
+
     }
+
 }

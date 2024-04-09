@@ -14,7 +14,7 @@
     <string name="chat_view_message">Compose your message</string>
     <string name="chat_view_btn_send">Skicka</string>
     <string name="search_view_header">Search for user</string>
-    <string name="chat_view_active_conversation">conversation Name</string>
+    <string name="chat_view_active_conversation">Chat Name</string>
     <string name="main_view_register_user">Register new user</string>
     <string name="main_view_login_user">Login with existing user</string>
     <string name="main_view_header">You better Chat up!</string>
@@ -33,7 +33,8 @@
     <string name="profile_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a turpis id eros iaculis facilisis ut vitae leo. Nunc imperdiet gravida dolor a cursus. Phasellus sed quam et lacus ornare cursus. Duis vitae mi vestibulum, laoreet lacus id, gravida nibh. In efficitur tellus ut neque finibus</string>
 
     <string name="reg_view_email">Email</string>
-
+    <string name="chat_message_received">Textmessage received</string>
+    <string name="chat_message_sent">Textmessage sent</string>
 
 
 </resources>
