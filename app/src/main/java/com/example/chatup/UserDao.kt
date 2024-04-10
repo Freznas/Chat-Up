@@ -13,28 +13,53 @@ class UserDao {
     val KEY_EMAIL = "email"
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
-    fun addUser(user: User)
+    fun addUser(user: User, callback: (Boolean) -> Unit)
     {
-        val dataToStore = HashMap<String, Any>()
-        dataToStore[KEY_ID] = user.id as Any
-        dataToStore[KEY_NAME] = user.name as Any
-        dataToStore[KEY_PASSWORD] = user.password as Any
-        dataToStore[KEY_PRESENTATION] = user.presentation as Any
-        dataToStore[KEY_PROFILEPICTURE] = user.profilePicture as Any
-        dataToStore[KEY_EMAIL] = user.email as Any
+        val usersCollection = FirebaseFirestore.getInstance().collection("users")
 
-        FirebaseFirestore
-            .getInstance()
-            .document("users/${user.id}")
-            .set(dataToStore)
-            .addOnSuccessListener { log ->
-                Log.w(
-                    "SUCCSESS",
-                    "User added to firestore with id : ${user.id}"
-                )
+        //Sends request and checks if the username already exists
+        usersCollection
+            //Filter to username
+            .whereEqualTo(KEY_NAME, user.name)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                //Doing the check
+                if (!querySnapshot.isEmpty) {
+                    Log.e("ERROR", "Username already exists")
+                    callback(false)
+
+                } else {
+                    //Max code for adding user to firestore
+                    val dataToStore = HashMap<String, Any>()
+                    dataToStore[KEY_ID] = user.id as Any
+                    dataToStore[KEY_NAME] = user.name as Any
+                    dataToStore[KEY_PASSWORD] = user.password as Any
+                    dataToStore[KEY_PRESENTATION] = user.presentation as Any
+                    dataToStore[KEY_PROFILEPICTURE] = user.profilePicture as Any
+                    dataToStore[KEY_EMAIL] = user.email as Any
+
+                    FirebaseFirestore
+                        .getInstance()
+                        .document("users/${user.id}")
+                        .set(dataToStore)
+                        .addOnSuccessListener { log ->
+                            Log.w(
+                                "SUCCESS",
+                                "User added to firestore with id : ${user.id}"
+                            )
+                            callback(true)
+                        }
+                        .addOnFailureListener { log -> Log.e("ERROR", "Failed to add user to firestore")
+                            callback(false)
+                        }
+                }
             }
-            .addOnFailureListener { log -> Log.e("ERROR", "Failed to add user to firestore") }
+            .addOnFailureListener { exception ->
+                Log.e("ERROR", "Error checking username availability", exception)
+                callback(false)
+            }
     }
+
     fun updateUser(user: User)
     {
         val userRef = FirebaseFirestore.getInstance().collection("users").document(user.id)

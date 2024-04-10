@@ -3,6 +3,7 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.chatup.databinding.ActivityConversationBinding
 
 class ConversationActivity : AppCompatActivity() {
@@ -21,5 +22,10 @@ class ConversationActivity : AppCompatActivity() {
             val intent = Intent(this, SearchUserActivity::class.java)
             startActivity(intent)
         }
+
+
+
+
+
     }
 }
