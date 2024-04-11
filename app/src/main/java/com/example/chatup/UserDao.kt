@@ -16,10 +16,13 @@ class UserDao {
     {
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
 
+        //Case Sensitivity
+        val lowercaseUsername = user.name?.lowercase()
+
         //Sends request and checks if the username already exists
         usersCollection
             //Filter to username
-            .whereEqualTo(KEY_NAME, user.name)
+            .whereEqualTo(KEY_NAME, lowercaseUsername)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 //Doing the check

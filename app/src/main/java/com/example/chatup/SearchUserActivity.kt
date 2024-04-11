@@ -28,6 +28,7 @@ class SearchUserActivity : AppCompatActivity() {
         searchView = findViewById(R.id.sv_search_user)
         listView = findViewById(R.id.lv_search_user)
 
+
         adapter = SearchUserAdapter(this, ArrayList())
         listView.adapter = adapter
 
