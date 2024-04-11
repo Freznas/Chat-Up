@@ -4,10 +4,14 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import com.example.chatup.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    var userDao = UserDao()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -17,5 +21,22 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ChatActivity::class.java)
             startActivity(intent)
         }
+            binding.btnSignin.setOnClickListener {
+                login()
+            }
+
+    }
+
+     fun login() {
+        val username = binding.username.text.toString()
+        val password = binding.password.text.toString()
+         userDao.checkUserCredentials(username, password){ validCredentials ->
+             if (validCredentials) {
+                 val intent = Intent(this, ConversationActivity::class.java)
+                 startActivity(intent)
+             } else {
+                 Toast.makeText(this, "invalid username or password! ", Toast.LENGTH_SHORT).show()
+             }
+         }
     }
 }
