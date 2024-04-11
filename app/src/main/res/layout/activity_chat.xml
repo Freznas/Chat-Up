@@ -13,7 +13,7 @@
         android:layout_marginTop="25dp"
         android:text="@string/chat_view_active_conversation"
         android:textColor="@color/view_text_black"
-        android:textSize="@dimen/font_header"></TextView>
+        android:textSize="@dimen/font_header"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

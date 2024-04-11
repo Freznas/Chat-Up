@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnRegister.setOnClickListener {
-            val intent = Intent(this, ChatActivity::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
             binding.btnSignin.setOnClickListener {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val password = binding.password.text.toString()
          userDao.checkUserCredentials(username, password){ validCredentials ->
              if (validCredentials) {
-                 val intent = Intent(this, ConversationActivity::class.java)
+                 val intent = Intent(this, ConversationsActivity::class.java)
                  startActivity(intent)
              } else {
                  Toast.makeText(this, "invalid username or password! ", Toast.LENGTH_SHORT).show()

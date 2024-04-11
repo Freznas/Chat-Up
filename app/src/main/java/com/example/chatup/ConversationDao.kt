@@ -71,7 +71,7 @@ class ConversationDao {
         )
         userRef.update( updates)
     }
-    fun getMessages(conversation: Conversation, activity: MaxTestActivity)
+    fun getMessages(conversation: Conversation, activity: ConversationsActivity)
     {
         var results = ArrayList<Message>()
 
@@ -88,10 +88,10 @@ class ConversationDao {
                     results = messages
                 }
                 Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
-                activity.showMessages(results)
+//                activity.showMessages(results)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
-    fun getConversations(activity: MaxTestActivity)
+    fun getConversations(activity: ConversationsActivity)
     {
         val results = ArrayList<Conversation>()
 
@@ -109,7 +109,7 @@ class ConversationDao {
                     results.add(conversation)
                 }
                 Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
-                    activity.showConversations(results)
+//                    activity.showConversations(results)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
 }
