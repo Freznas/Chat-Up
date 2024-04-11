@@ -37,7 +37,6 @@ class SearchUserActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
-        // Setting query text listener for SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -60,7 +59,6 @@ class SearchUserActivity : AppCompatActivity() {
     // Function to search based on query
     fun performSearch(query: String) {
             userDao.searchUsers(query) { users ->
-                val userNames = users.map { it.name }
                 adapter.clear()
               adapter.addAll(users)
             }
