@@ -9,7 +9,7 @@
     <string name="login_view_password">Enter Password</string>
     <string name="login_view_username">Enter Username</string>
     <string name="login_view_btn_signin">Sign in</string>
-    <string name="btn_return">return</string>
+    <string name="btn_search_user_tv">Find User</string>
     <string name="conversation_view_header">Conversations</string>
     <string name="chat_view_message">Compose your message</string>
     <string name="chat_view_btn_send">Skicka</string>
@@ -35,6 +35,8 @@
     <string name="reg_view_email">Email</string>
     <string name="chat_message_received">Textmessage received</string>
     <string name="chat_message_sent">Textmessage sent</string>
+    <string name="btn_my_profile_tv">My Profile</string>
+    <string name="contentdescription_newchat_alert">new chat</string>
 
 
 </resources>

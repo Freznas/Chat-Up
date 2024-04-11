@@ -10,5 +10,20 @@ class ConversationsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityConversationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnMyProfile.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnSearchUser.setOnClickListener {
+            val intent = Intent(this, SearchUserActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+
+
     }
 }

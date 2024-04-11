@@ -50,12 +50,16 @@ class RegisterActivity : AppCompatActivity() {
 
             //Regs user
             val user = User(UUID.randomUUID().toString(), name, password1, email)
-            userDao.addUser(user)
-            Toast.makeText(this, "User registered", Toast.LENGTH_SHORT).show()
-
-            //Closes activity
-            finish()
-
+            userDao.addUser(user) { success ->
+                //If callback is true create user, if not give the information to the user
+                if (success) {
+                    Toast.makeText(this, "User registered", Toast.LENGTH_SHORT).show()
+                    //Closes activity
+                    finish()
+                } else {
+                    Toast.makeText(this, "Username is already used, try another one", Toast.LENGTH_SHORT).show()
+                }
+            }
         }catch (e: Exception){
             Log.e("Error", "Failed to add user ${e.message.toString()}")
         }

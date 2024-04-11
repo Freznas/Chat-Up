@@ -14,6 +14,7 @@
         android:layout_marginTop="60dp"
         android:text="@string/conversation_view_header"
         android:textSize="@dimen/font_header"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,7 +23,7 @@
 
     <ListView
         android:id="@+id/lv_conversation"
-        android:layout_width="415dp"
+        android:layout_width="match_parent"
         android:layout_height="494dp"
         android:layout_marginTop="128dp"
         android:paddingHorizontal="50dp"
@@ -33,17 +34,35 @@
 
     </ListView>
 
-
-    <Button
-        android:id="@+id/btn_conversation_return"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/button_design"
-        android:text="@string/btn_return"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></Button>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lv_conversation">
+
+        <Button
+            android:id="@+id/btn_search_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/btn_search_user_tv"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
+            />
+
+        <Button
+            android:id="@+id/btn_my_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/btn_my_profile_tv"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
+            />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

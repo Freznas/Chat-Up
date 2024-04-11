@@ -81,7 +81,7 @@ fun addUser() {
       val password = binding.maxEtPassword.text.toString()
       val email = binding.maxEtEmail.text.toString()
       val user = User(UUID.randomUUID().toString(), name, password, email )
-      userDao.addUser(user)
+//      userDao.addUser(user)
   } catch (e: Exception) {
       Log.e("Error", e.message.toString())
   }
