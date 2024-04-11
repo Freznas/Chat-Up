@@ -22,7 +22,7 @@
             android:name=".SearchUserActivity"
             android:exported="false" />
         <activity
-            android:name=".ConversationActivity"
+            android:name=".ConversationsActivity"
             android:exported="false" />
         <activity
             android:name=".ChatActivity"
