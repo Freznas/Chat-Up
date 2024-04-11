@@ -24,30 +24,42 @@ class ChatActivity : AppCompatActivity() {
         val sentMsgsArray = ArrayList<Message>()
         var msg = Message(UUID.randomUUID().toString(),"max", "sent message 1")
         sentMsgsArray.add(0, msg)
-        msg = Message(UUID.randomUUID().toString(),"max", "sent message 1")
+        msg = Message(UUID.randomUUID().toString(),"max", "sent message 2")
         sentMsgsArray.add(1, msg)
-        msg = Message(UUID.randomUUID().toString(),"max", "sent message 1")
+        msg = Message(UUID.randomUUID().toString(),"max", "sent message 3")
         sentMsgsArray.add(2, msg)
+
+        val rMsgsArray = ArrayList<Message>()
+         msg = Message(UUID.randomUUID().toString(),"maxnt", "Kotlin coooling")
+        rMsgsArray.add(0, msg)
+        msg = Message(UUID.randomUUID().toString(),"maxnt", "superman 2")
+        rMsgsArray.add(1, msg)
+        msg = Message(UUID.randomUUID().toString(),"maxnt", "crazy Dave 3")
+        rMsgsArray.add(2, msg)
 
         var users: ArrayList<User> = ArrayList<User>()
         users.add(User("1","1","1","1"))
         users.add(User("1","1","1","1"))
 
-        var dummyConvo = Conversation("e397a4d8-03ca-4f57-9f04-391f221016dc", sentMsgsArray , users )
+        var dummyConvo = Conversation("f5a39fd5-d9e7-4028-b318-553fcc3758be", sentMsgsArray , rMsgsArray , users )
 
-       // conversationDao.createConversation(dummyConvo) funkar
+// conversationDao.createConversation(dummyConvo)
 //        conversationDao.addMessage(dummyConvo, "max", "maxmamxamxmamx") funkar
-       conversationDao.getMessages( dummyConvo, this)
-        sentMesssagesAdapter = MessagesSentAdapter(this, sentMessages)
+//       var messageDao = MessageDao()
+  //    messageDao.addMessage(dummyConvo, "max","hello world2")
+//   messageDao.getMessages( dummyConvo, this)
+     conversationDao.getMessages(dummyConvo, this)
+//        sentMesssagesAdapter = MessagesSentAdapter(this, sentMessages)
 //        receievedMessagesAdapter = MessagesReceivedAdapter(this, receivedMessages)
 
 //        binding.lvChatReceived.adapter = receievedMessagesAdapter
-        binding.lvChatSent.adapter = sentMesssagesAdapter
+//        binding.lvChatSent.adapter = sentMesssagesAdapter
 
 //        sentMesssagesAdapter.addAll(sentMessages)
 //        receievedMessagesAdapter.addAll(receivedMessages)
 
-        fetchMessages(dummyConvo)
+//        fetchMessages(dummyConvo)
+
     }
 
     private fun fetchMessages(converstion: Conversation) {
@@ -86,36 +98,13 @@ class ChatActivity : AppCompatActivity() {
     fun showConversations(results: ArrayList<Conversation>) {
 
     }
-    fun showMessages(results: ArrayList<Message>){
-        TODO("split results into recived and sent messages")
-        /*   bortkommenterad del är för att dela upp i sent och recived
-        funkar inte helt då results får med massa hashmaps måste ändra i daon
-        var recivedMesseges = ArrayList<Message>()
-        var sentMesseges = ArrayList<Message>()
-        var MEEEE = intent.getStringExtra("user")
-//        println("user ${MEEEE}")
-//        println("user ${results}")
+    fun showMessages(results: ArrayList<Message>, results2: ArrayList<Message>){
 
+        val sentAdapter = ArrayAdapter(this, R.layout.simple_list_item_1,results)
+        binding.lvChatSent.adapter = sentAdapter
 
-     for (i in 0 until results.size) {
-            System.out.println(results.get(i))
-            if(results[i].sender != MEEEE)
-            {
-                recivedMesseges.add(results[i])
-            }
-            else
-            {
-                sentMesseges.add(results[i])
-            }
-        }
-                val sentAdapter = ArrayAdapter(this, R.layout.simple_list_item_1, sentMesseges)
-                binding.lvChatSent.adapter = sentAdapter
-
-                val recivedAdapter = ArrayAdapter(this, R.layout.simple_list_item_1, recivedMesseges)
-                binding.lvChatSent.adapter = recivedAdapter
-        */
-               val recivedAdapter = ArrayAdapter(this, R.layout.simple_list_item_1, results)
-                binding.lvChatSent.adapter = recivedAdapter
+        val recivedAdapter = ArrayAdapter(this, R.layout.simple_list_item_1,results2)
+        binding.lvChatReceived.adapter = recivedAdapter
     }
 
     companion object {
