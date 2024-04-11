@@ -7,7 +7,7 @@
     android:background="@color/background_blue">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/search_result_cardview"
+        android:id="@+id/cv_received_message"
         android:layout_width="221dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -24,7 +24,7 @@
 
 
         <ImageView
-            android:id="@+id/search_result_image"
+            android:id="@+id/iv_receiver_image"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="10dp"
@@ -32,7 +32,7 @@
             android:src="@drawable/logony" />
 
         <TextView
-            android:id="@+id/search_result_textview"
+            android:id="@+id/tv_receieved_message"
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"

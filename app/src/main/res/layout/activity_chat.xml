@@ -6,12 +6,13 @@
     android:background="@color/background_blue">
 
     <TextView
+        android:id="@+id/tv_chat_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:textColor="@color/view_text_black"
         android:text="@string/chat_view_active_conversation"
+        android:textColor="@color/view_text_black"
         android:textSize="@dimen/font_header"></TextView>
 
     <LinearLayout
@@ -60,7 +61,7 @@
             android:autofillHints="" />
 
         <Button
-            android:id="@+id/sendButton"
+            android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
