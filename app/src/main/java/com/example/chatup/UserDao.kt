@@ -12,6 +12,7 @@ class UserDao {
     val KEY_EMAIL = "email"
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
+
     fun addUser(user: User, callback: (Boolean) -> Unit)
     {
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
@@ -162,4 +163,10 @@ class UserDao {
                 Log.e("Error"," Query failed", exception)
             }
     }
+
+
+
+
+
+
 }

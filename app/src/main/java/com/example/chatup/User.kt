@@ -5,7 +5,8 @@ import java.net.URL
 class User (val id: String,
             val name: String?,
             val password: String?,
-            val email: String?
+            val email: String?,
+
             ){
     // When make User presentation and pic is optional
     var presentation: String? ="placeholder"
