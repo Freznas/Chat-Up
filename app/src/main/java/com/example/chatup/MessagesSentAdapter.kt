@@ -1,13 +1,16 @@
 package com.example.chatup
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class MessagesSentAdapter(context: Context, private val messages: List<Message>) :
+class MessagesSentAdapter(context: Context, private val messages: List<Message>,var user: String) :
     ArrayAdapter<Message>(context, 0, messages) {
 
     override fun getViewTypeCount(): Int {
@@ -17,17 +20,32 @@ class MessagesSentAdapter(context: Context, private val messages: List<Message>)
     override fun getItemViewType(position: Int): Int {
         return 0
     }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView
+        val viewHolder : ViewHolder
+        val message =  getItem(position) as Message
         if (itemView == null) {
-            itemView = LayoutInflater.from(context)
-                .inflate(R.layout.listview_sent_messages, parent, false)
+            val layoutId = if (message.sender == user) {
+                R.layout.listview_sent_messages
+            } else {
+                R.layout.listview_received_messages
+            }
+           itemView = LayoutInflater.from(context)
+               .inflate(layoutId, parent, false)
+            viewHolder = ViewHolder()
+            viewHolder.messageTextView = itemView.findViewById(R.id.tv_message)
+            itemView.tag = viewHolder
+//            inflate(R.layout.listview_sent_messages, parent, false)
+        } else {
+            viewHolder = itemView.tag as ViewHolder
         }
-        val messageTextView: TextView = itemView!!.findViewById(R.id.tv_sent_message)
-//      messageTextView.text = getItem(position)
+        // Set message content
+        viewHolder.messageTextView.text = message.text
         return itemView!!
 
 
+    }
+    private class ViewHolder {
+        lateinit var messageTextView: TextView
     }
 }
