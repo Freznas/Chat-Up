@@ -2,31 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_blue">
+    android:background="@color/background_blue"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_chat_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:text="@string/chat_view_active_conversation"
         android:textColor="@color/view_text_black"
-        android:textSize="@dimen/font_header"/>
+        android:textSize="@dimen/font_header" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="586dp"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <ListView
             android:id="@+id/lv_chat_received"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
             android:layout_weight="1"
             android:divider="@android:color/transparent"
             android:dividerHeight="5dp" />
@@ -35,8 +34,7 @@
             android:id="@+id/lv_chat_sent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:divider="@android:color/transparent"
             android:dividerHeight="5dp" />
@@ -54,19 +52,19 @@
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_weight="1"
+            android:autofillHints=""
             android:hint="@string/chat_view_message"
-            android:inputType="textMultiLine"
-            android:maxLines="5"
             android:imeOptions="actionSend"
-            android:autofillHints="" />
+            android:inputType="textMultiLine"
+            android:maxLines="5" />
 
         <Button
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:background="@drawable/button_design"
             android:text="@string/chat_view_btn_send"
-            android:background="@drawable/button_design"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
