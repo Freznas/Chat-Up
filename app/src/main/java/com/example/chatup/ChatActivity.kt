@@ -46,8 +46,8 @@ class ChatActivity : AppCompatActivity() {
     }
     fun showMessages(results: ArrayList<Message>){
 
-        val user = intent.getSerializableExtra("user") as String
-        val sentAdapter = MessagesSentAdapter(this,results, user)
+        val user = intent.getSerializableExtra("user") as User
+        val sentAdapter = MessagesSentAdapter(this,results, user.name!!)
         binding.lvChatSent.adapter = sentAdapter
     }
 //#region TestingDummyData
