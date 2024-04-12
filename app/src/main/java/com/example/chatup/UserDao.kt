@@ -1,12 +1,10 @@
 package com.example.chatup
 
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import java.net.URL
-import kotlin.math.log
 
 class UserDao {
     val KEY_ID ="id"
@@ -15,18 +13,14 @@ class UserDao {
     val KEY_EMAIL = "email"
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
-
     fun addUser(user: User, callback: (Boolean) -> Unit)
     {
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
 
-        //Case Sensitivity
-        val lowercaseUsername = user.name?.lowercase()
-
         //Sends request and checks if the username already exists
         usersCollection
             //Filter to username
-            .whereEqualTo(KEY_NAME, lowercaseUsername)
+            .whereEqualTo(KEY_NAME, user.name)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 //Doing the check
@@ -65,7 +59,6 @@ class UserDao {
                 callback(false)
             }
     }
-
     fun updateUser(user: User)
     {
         val userRef = FirebaseFirestore.getInstance().collection("users").document(user.id)
@@ -118,6 +111,26 @@ class UserDao {
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
 //    Function to search for users
+fun getUserByUserName(username: String, callback: (User) -> Unit) {
+    FirebaseFirestore
+        .getInstance()
+        .collection("users")
+        .whereEqualTo("name", username)
+        .get()
+        .addOnSuccessListener { result ->
+            val user = result.documents.firstOrNull()
+            if(user != null)
+            {
+                val id = user.getString(KEY_ID)
+                val name = user.getString(KEY_NAME)
+                val password = user.getString(KEY_PASSWORD)
+                val mail = user.getString(KEY_EMAIL)
+                val foundUser = User(id!!, name, password, mail)
+                callback (foundUser)
+            }
+            Log.i("SUCCSESS", " FETCHED USER FROM FIRESTORE")
+        }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
+}
     fun searchUsers(query:String,callback:(List<User>)->Unit){
         val users = mutableListOf<User>()
         FirebaseFirestore.getInstance()
@@ -155,11 +168,10 @@ class UserDao {
         usersCollection
             .whereEqualTo("name", username )
             .whereEqualTo( "password", password)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
+            .get().addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.isEmpty) { // No matching documents found
                     callback(false)
-                } else {
+                } else {// Found document
                     callback(true)
                 }
             }
@@ -167,12 +179,4 @@ class UserDao {
                 Log.e("Error"," Query failed", exception)
             }
     }
-
-
-
-
-
-
-
-
 }

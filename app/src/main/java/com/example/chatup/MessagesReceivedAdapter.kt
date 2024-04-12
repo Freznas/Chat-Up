@@ -25,8 +25,8 @@ class MessagesReceivedAdapter(context: Context, private val messages: List<Strin
             itemView = LayoutInflater.from(context)
                 .inflate(R.layout.listview_received_messages, parent, false)
         }
-        val messageTextView: TextView = itemView!!.findViewById(R.id.tv_receieved_message)
-        messageTextView.text = getItem(position)
+//        val messageTextView: TextView = itemView!!.findViewById(R.id.tv_receieved_message)
+//        messageTextView.text = getItem(position)
         return itemView!!
 
 

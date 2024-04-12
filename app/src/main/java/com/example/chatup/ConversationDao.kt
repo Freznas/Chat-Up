@@ -1,10 +1,9 @@
 package com.example.chatup
 
-import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
-import java.net.URL
+import java.util.UUID
+
 
 class ConversationDao {
     val KEY_ID ="id"
@@ -29,22 +28,17 @@ class ConversationDao {
                 Log.e("Error"," Query failed", exception)
             }
     }
-    fun createConversation(conversation: Conversation ,users: ArrayList<User> )
+    fun createConversation(conversation: Conversation  )
     {
-        //check if conversation already exists
-        isNewConversation(conversation) { notDuplicate ->
-            if (notDuplicate) {
-                //add users to conversation
-                users.forEach()
-                { user->
-                    conversation.users.add(user)
-                }
+//        val conversationCollection = FirebaseFirestore.getInstance().collection("conversations")
+//        conversationCollection
+
+
                 // add conversation to database
                 val dataToStore = HashMap<String, Any>()
                 dataToStore[KEY_ID] = conversation.id as Any
                 dataToStore[KEY_MESSAGES] = conversation.messages as Any
                 dataToStore[KEY_USERS] = conversation.users as Any
-
                 FirebaseFirestore.getInstance()
                     .document("conversations/${conversation.id}")
                     .set(dataToStore).addOnSuccessListener {
@@ -53,45 +47,48 @@ class ConversationDao {
                     .addOnFailureListener { exception ->
                         Log.w("Failure", "Error writing document", exception)
                     }
-            }
-            else {
-                Log.e("Error", "failed to create conversation ")
-            }
-        }
     }
-    fun addMessage(conversation: Conversation, sender: String, message: String)
+    fun addMessage(conversation: Conversation, sender: String, msg: String)
     {
-        var newMessage = Message(sender, message)
-        conversation.messages.add(newMessage)
 
         val userRef = FirebaseFirestore.getInstance().collection("conversations").document(conversation.id)
-        val updates: Map<String, Any>  = hashMapOf(
+        val updates: Map<String, Any>
+        var newMessage = Message(UUID.randomUUID().toString(), sender, msg )
+        conversation.messages.add(newMessage)
+        updates = hashMapOf(
             "messages" to conversation.messages as Any,
             "users" to conversation.users as Any
         )
         userRef.update( updates)
     }
-    fun getMessages(conversation: Conversation, activity: ConversationsActivity)
+    fun getMessages(conversation: Conversation, activity: ChatActivity)
     {
         var results = ArrayList<Message>()
-
         FirebaseFirestore
             .getInstance()
             .collection("conversations")
             .whereEqualTo("id" , conversation.id)
             .get()
             .addOnSuccessListener { result ->
+               //
                 for (document in result) {
-                    val id = document.getString(KEY_ID)
-                    var messages = document.get(KEY_MESSAGES) as ArrayList<Message>
+                    val messagesData = document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
 
-                    results = messages
+                    for (messageData in messagesData) {
+                        val id = messageData["id"] as String
+                        val text = messageData["text"] as String
+                        val sender = messageData["sender"] as String
+
+                        val message = Message(id, sender ,text) // Anpassa konstruktorn efter din Message-klass
+                        results.add(message)
+                    }
                 }
+                //
                 Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
-//                activity.showMessages(results)
+             activity.showMessages(results)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
-    fun getConversations(activity: ConversationsActivity)
+    fun getConversations(activity: ChatActivity)
     {
         val results = ArrayList<Conversation>()
 
@@ -105,11 +102,11 @@ class ConversationDao {
                     var messages = document.get(KEY_MESSAGES) as ArrayList<Message>
                     var users = document.get(KEY_USERS) as ArrayList<User>
 
-                    val conversation = Conversation(id!!, messages, users)
+                   val conversation = Conversation(id!!, messages, users)
                     results.add(conversation)
                 }
                 Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
-//                    activity.showConversations(results)
+                   activity.showConversations(results)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
 }
