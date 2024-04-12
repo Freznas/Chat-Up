@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         val password = binding.password.text.toString()
          userDao.checkUserCredentials(username, password){ validCredentials ->
              if (validCredentials) {
-                 val intent = Intent(this, ConversationsActivity::class.java)
+                 val intent = Intent(this, ChatActivity::class.java)
+                 intent.putExtra("user", username )
                  startActivity(intent)
              } else {
                  Toast.makeText(this, "invalid username or password! ", Toast.LENGTH_SHORT).show()

@@ -27,7 +27,7 @@
             android:src="@drawable/logony" />
 
         <TextView
-            android:id="@+id/tv_sent_message"
+            android:id="@+id/tv_message"
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -35,8 +35,5 @@
             android:text="@string/chat_message_sent"
             android:textColor="@color/black"
             android:textSize="18sp" />
-
-
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
