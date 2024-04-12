@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class MessagesSentAdapter(context: Context, private val messages: List<String>) :
-    ArrayAdapter<String>(context, 0, messages) {
+class MessagesSentAdapter(context: Context, private val messages: List<Message>) :
+    ArrayAdapter<Message>(context, 0, messages) {
 
     override fun getViewTypeCount(): Int {
         return 1
@@ -25,7 +25,7 @@ class MessagesSentAdapter(context: Context, private val messages: List<String>) 
                 .inflate(R.layout.listview_sent_messages, parent, false)
         }
         val messageTextView: TextView = itemView!!.findViewById(R.id.tv_sent_message)
-        messageTextView.text = getItem(position)
+//      messageTextView.text = getItem(position)
         return itemView!!
 
 

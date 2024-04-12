@@ -46,7 +46,7 @@ class ChatActivity : AppCompatActivity() {
     }
     fun showMessages(results: ArrayList<Message>){
 
-        val sentAdapter = ArrayAdapter(this, R.layout.simple_list_item_1,results)
+        val sentAdapter = MessagesSentAdapter(this,results)
         binding.lvChatSent.adapter = sentAdapter
     }
 //#region TestingDummyData
