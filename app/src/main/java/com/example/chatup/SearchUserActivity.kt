@@ -3,6 +3,7 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
@@ -34,8 +35,14 @@ class SearchUserActivity : AppCompatActivity() {
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedUsername = adapter.getItem(position)
-            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
+
             val intent = Intent(this, ProfileActivity::class.java)
+
+            intent.putExtra("name", selectedUsername?.name)
+            intent.putExtra("presentation", selectedUsername?.presentation)
+            intent.putExtra("profilepicture", selectedUsername?.profilePicture.toString())
+
             startActivity(intent)
         }
 
@@ -55,7 +62,6 @@ class SearchUserActivity : AppCompatActivity() {
             }
         })
     }
-
 
     // Function to search based on query
     fun performSearch(query: String) {

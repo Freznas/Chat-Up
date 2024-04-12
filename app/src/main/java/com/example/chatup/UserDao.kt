@@ -1,9 +1,12 @@
 package com.example.chatup
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import java.net.URL
+import kotlin.math.log
 
 class UserDao {
     val KEY_ID ="id"
@@ -152,10 +155,11 @@ class UserDao {
         usersCollection
             .whereEqualTo("name", username )
             .whereEqualTo( "password", password)
-            .get().addOnSuccessListener { querySnapshot ->
+            .get()
+            .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.isEmpty) { // No matching documents found
                     callback(false)
-                } else {// Found document
+                } else {
                     callback(true)
                 }
             }
@@ -163,6 +167,8 @@ class UserDao {
                 Log.e("Error"," Query failed", exception)
             }
     }
+
+
 
 
 

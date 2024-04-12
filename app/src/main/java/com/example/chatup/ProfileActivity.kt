@@ -1,8 +1,9 @@
 package com.example.chatup
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityProfileBinding
+
 //Activity to display you profile, update with a profile picture and information about you.
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
@@ -10,5 +11,16 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val userName = intent.getStringExtra("name")
+        val userPresentation = intent.getStringExtra("presentation")
+        //Way to handle picture
+        val userProfilePicture = intent.getStringExtra("profilepicture")
+
+        binding.profileUsername.text = userName
+        binding.profileDescription.text = userPresentation
+
+
     }
 }

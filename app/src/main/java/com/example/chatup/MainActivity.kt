@@ -2,10 +2,9 @@ package com.example.chatup
 // Chat Up ! Chattapplication with Achievments, Build with MVC Structure.
 // Actvity to sign in
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,22 +20,24 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-            binding.btnSignin.setOnClickListener {
-                login()
-            }
+        binding.btnSignin.setOnClickListener {
+            login()
+        }
 
     }
 
-     fun login() {
+    fun login() {
         val username = binding.username.text.toString()
         val password = binding.password.text.toString()
-         userDao.checkUserCredentials(username, password){ validCredentials ->
-             if (validCredentials) {
-                 val intent = Intent(this, ConversationsActivity::class.java)
-                 startActivity(intent)
-             } else {
-                 Toast.makeText(this, "invalid username or password! ", Toast.LENGTH_SHORT).show()
-             }
-         }
+
+        userDao.checkUserCredentials(username, password) { validCredentials ->
+            if (validCredentials) {
+                val intent = Intent(this, ConversationsActivity::class.java)
+
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "invalid username or password! ", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
