@@ -4,28 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchUserActivity"
-    android:background="@color/background_blue">
+    android:background="@color/background_blue"
+    tools:context=".SearchUserActivity">
 
     <SearchView
         android:id="@+id/sv_search_user"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginHorizontal="25dp"
+        android:background="@color/white"
         android:iconifiedByDefault="false"
         android:queryHint="Find user"
-        android:background="@color/white"
-        android:layout_marginHorizontal="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_search_header" />
 
     <TextView
         android:id="@+id/tv_search_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="32dp"
         android:text="@string/search_view_header"
         android:textColor="@color/view_text_black"
         android:textSize="@dimen/font_header"
@@ -37,10 +36,8 @@
         android:id="@+id/lv_search_user"
         android:layout_width="392dp"
         android:layout_height="507dp"
-        android:layout_marginHorizontal="150dp"
-        android:paddingHorizontal="25dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:background="@color/transparentColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sv_search_user" />
