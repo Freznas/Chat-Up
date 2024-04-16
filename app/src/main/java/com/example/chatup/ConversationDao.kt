@@ -109,4 +109,26 @@ class ConversationDao {
                    activity.showConversations(results)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
+    fun getConversationsForUser(user: User, callback: (List<Conversation>) -> Unit) {
+        val conversationsCollection = FirebaseFirestore.getInstance().collection("conversations")
+
+        conversationsCollection
+            .whereArrayContains("users", user) // Filter conversations where the user is present
+            .get()
+            .addOnSuccessListener { result ->
+                val conversations = ArrayList<Conversation>()
+                for (document in result) {
+                    val id = document.getString(KEY_ID)
+                    val messages = document.get(KEY_MESSAGES) as ArrayList<Message>
+                    val users = document.get(KEY_USERS) as ArrayList<User>
+                    val conversation = Conversation(id!!, messages, users)
+                    conversations.add(conversation)
+                }
+                callback(conversations)
+            }
+            .addOnFailureListener { exception ->
+                Log.e("ERROR", "Failed to fetch conversations", exception)
+                callback(emptyList()) // Return an empty list in case of failure
+            }
+    }
 }

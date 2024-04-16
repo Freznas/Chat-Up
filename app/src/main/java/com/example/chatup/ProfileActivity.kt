@@ -12,7 +12,7 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val selectedUser = intent.getSerializableExtra("selectedUser") as User
+        val selectedUser = intent.getSerializableExtra("selectedUser") as User
 
 
         binding.btnAddFriend.setOnClickListener {
@@ -20,9 +20,9 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.btnChatUp.setOnClickListener {
-
             val intent = Intent(this, ChatActivity::class.java)
-//            intent.putExtra("selectedUser", selectedUser)
+            intent.putExtra("selectedUser", selectedUser)
+
             startActivity(intent)
         }
         binding.btnBlock.setOnClickListener {
