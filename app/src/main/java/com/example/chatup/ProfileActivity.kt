@@ -34,6 +34,16 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-    }
 
+
+        val userName = intent.getStringExtra("name")
+        val userPresentation = intent.getStringExtra("presentation")
+        //Way to handle picture
+        val userProfilePicture = intent.getStringExtra("profilepicture")
+
+        binding.profileUsername.text = userName
+        binding.profileDescription.text = userPresentation
+
+
+    }
 }

@@ -7,14 +7,17 @@ import com.example.chatup.databinding.ActivityConversationsBinding
 
 class ConversationsActivity : AppCompatActivity() {
     lateinit var binding: ActivityConversationsBinding
+    var currentUser: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityConversationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        currentUser = intent.getSerializableExtra("user") as? User
+
         binding.btnMyProfile.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            navigateToProfile(currentUser!!)
+
         }
 
         binding.btnSearchUser.setOnClickListener {
@@ -23,8 +26,12 @@ class ConversationsActivity : AppCompatActivity() {
         }
 
 
-
-
-
+    }
+    fun navigateToProfile(user: User) {
+        val intent = Intent(this, ProfileActivity::class.java)
+        intent.putExtra("name", user.name)
+        intent.putExtra("presentation", user.presentation)
+        intent.putExtra("profilepicture", user.profilePicture)
+        startActivity(intent)
     }
 }

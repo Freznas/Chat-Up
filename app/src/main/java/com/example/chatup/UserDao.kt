@@ -18,10 +18,12 @@ class UserDao {
     {//Connect to the "users" collection in the firestore.
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
 
+        val lowercaseUsername = user.name?.lowercase()
+
         //Sends request and checks if the username already exists
         usersCollection
             //Filter to username
-            .whereEqualTo(KEY_NAME, user.name)
+            .whereEqualTo(KEY_NAME, lowercaseUsername)
             .get()
             .addOnSuccessListener { querySnapshot ->
                 //Doing the check
@@ -130,7 +132,11 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
                 val name = user.getString(KEY_NAME)
                 val password = user.getString(KEY_PASSWORD)
                 val mail = user.getString(KEY_EMAIL)
+                val presentation = user.getString(KEY_PRESENTATION)
+                val profilePicture = user.getString(KEY_PROFILEPICTURE)
                 val foundUser = User(id!!, name, password, mail)
+                foundUser.presentation = presentation
+                foundUser.profilePicture = URL(profilePicture)
                 callback (foundUser)
             }
             Log.i("SUCCSESS", " FETCHED USER FROM FIRESTORE")

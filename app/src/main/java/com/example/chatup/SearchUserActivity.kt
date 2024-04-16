@@ -3,6 +3,8 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
 import android.widget.Toast
@@ -31,10 +33,15 @@ class SearchUserActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         listView.setOnItemClickListener { _, _, position, _ ->
-            val selectedUser = adapter.getItem(position)
-            Toast.makeText(this, "Selected user $selectedUser", Toast.LENGTH_LONG).show()
+            val selectedUsername = adapter.getItem(position)
+            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
             val intent = Intent(this, ProfileActivity::class.java)
-            intent.putExtra("selectedUser",selectedUser)
+            intent.putExtra("selectedUser",selectedUsername)
+
+            intent.putExtra("name", selectedUsername?.name)
+            intent.putExtra("presentation", selectedUsername?.presentation)
+            intent.putExtra("profilepicture", selectedUsername?.profilePicture.toString())
+
             startActivity(intent)
         }
 
