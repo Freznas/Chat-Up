@@ -14,7 +14,8 @@ class UserDao {
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
     fun addUser(user: User, callback: (Boolean) -> Unit)
-    {
+
+    {//Connect to the "users" collection in the firestore.
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
 
         //Sends request and checks if the username already exists
@@ -46,7 +47,9 @@ class UserDao {
                             Log.w(
                                 "SUCCESS",
                                 "User added to firestore with id : ${user.id}"
+
                             )
+
                             callback(true)
                         }
                         .addOnFailureListener { log -> Log.e("ERROR", "Failed to add user to firestore")
@@ -103,7 +106,9 @@ class UserDao {
 
                     val user = User(id!!, name, password, email)
                     user.presentation = presentation
+
                     user.profilePicture = URL(profilePicture)
+
                     users.add(user)
                 }
                 Log.i("SUCCSESS", " FETCHED USERS FROM FIRESTORE")
@@ -132,27 +137,41 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
         }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
 }
     fun searchUsers(query:String,callback:(List<User>)->Unit){
-        val users = mutableListOf<User>()
+        Log.d("FirestoreQuery", "Starting searchUsers query with query: $query")
+
         FirebaseFirestore.getInstance()
             .collection("users")
             .whereEqualTo(KEY_NAME,query)
             .get()
             .addOnSuccessListener { result ->
+                Log.d("FirestoreQuery", "Query successful. Result size: ${result.size()}")
+
+                val users = mutableListOf<User>()
+
                 for (document in result)
                 {
+                    if (document != null) {
+                        // Access document fields here
+                        val id = document.getString(KEY_ID) ?: ""
+                        val name = document.getString(KEY_NAME) ?: ""
+                        val password = document.getString(KEY_PASSWORD) ?: ""
+                        val email = document.getString(KEY_EMAIL) ?: ""
+                        val presentation = document.getString(KEY_PRESENTATION) ?: ""
+                        val profilePicture = document.getString(KEY_PROFILEPICTURE) ?: ""
+
+                        Log.d(
+                            "FirestoreQuery",
+                            "Fetched user: id=$id, name=$name, password=$password, email=$email, presentation=$presentation, profilePicture=$profilePicture"
+                        )
+                        val user = User(id, name, password, email)
+
 //                    Fetching user data from firestore document
-                    val id = document.getString(KEY_ID)?:""
-                    val name =document.getString(KEY_NAME)?:""
-                    val password = document.getString(KEY_PASSWORD)?:""
-                    val email = document.getString(KEY_EMAIL)?:""
-                    val presentation = document.getString(KEY_PRESENTATION)?:""
-                    val profilePicture = document.getString(KEY_PROFILEPICTURE)?:""
 
-                    val user=User(id,name,password,email)
-                    user.presentation=presentation
-                    user.profilePicture=URL(profilePicture)
-                    users.add(user)
+                        user.presentation = presentation
 
+                        user.profilePicture = URL(profilePicture)
+                        users.add(user)
+                    }
                 }
                 callback(users)
             }.addOnFailureListener {

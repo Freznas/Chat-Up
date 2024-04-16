@@ -1,5 +1,6 @@
 package com.example.chatup
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.chatup.databinding.ActivityProfileBinding
@@ -10,5 +11,29 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        val selectedUser = intent.getSerializableExtra("selectedUser") as User
+
+
+        binding.btnAddFriend.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnChatUp.setOnClickListener {
+
+            val intent = Intent(this, ChatActivity::class.java)
+//            intent.putExtra("selectedUser", selectedUser)
+            startActivity(intent)
+        }
+        binding.btnBlock.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnRemove.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
 }
