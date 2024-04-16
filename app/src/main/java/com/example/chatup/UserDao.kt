@@ -127,7 +127,11 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
                 val name = user.getString(KEY_NAME)
                 val password = user.getString(KEY_PASSWORD)
                 val mail = user.getString(KEY_EMAIL)
+                val presentation = user.getString(KEY_PRESENTATION)
+                val profilePicture = user.getString(KEY_PROFILEPICTURE)
                 val foundUser = User(id!!, name, password, mail)
+                foundUser.presentation = presentation
+                foundUser.profilePicture = URL(profilePicture)
                 callback (foundUser)
             }
             Log.i("SUCCSESS", " FETCHED USER FROM FIRESTORE")
