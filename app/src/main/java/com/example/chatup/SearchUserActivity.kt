@@ -38,10 +38,10 @@ class SearchUserActivity : AppCompatActivity() {
 //            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
 
             val intent = Intent(this, ProfileActivity::class.java)
-
-            intent.putExtra("name", selectedUsername?.name)
-            intent.putExtra("presentation", selectedUsername?.presentation)
-            intent.putExtra("profilepicture", selectedUsername?.profilePicture.toString())
+            intent.putExtra("searchedName", selectedUsername?.name)
+            intent.putExtra("searchedPresentation", selectedUsername?.presentation)
+            intent.putExtra("searchedProfilepicture", selectedUsername?.profilePicture.toString())
+            intent.putExtra("source", "SearchUserActivity")
 
             startActivity(intent)
         }

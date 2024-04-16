@@ -2,6 +2,7 @@ package com.example.chatup
 
 import android.content.Intent
 import android.util.Log
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import java.net.URL
@@ -60,6 +61,7 @@ class UserDao {
                 Log.e("ERROR", "Error checking username availability", exception)
                 callback(false)
             }
+
     }
     fun updateUser(user: User)
     {
@@ -185,4 +187,9 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
                 Log.e("Error"," Query failed", exception)
             }
     }
+
+
+
+
+
 }
