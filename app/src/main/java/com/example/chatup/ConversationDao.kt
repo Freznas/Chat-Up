@@ -2,6 +2,8 @@ package com.example.chatup
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import java.net.MalformedURLException
+import java.net.URL
 import java.util.UUID
 
 
@@ -70,43 +72,94 @@ class ConversationDao {
             .whereEqualTo("id" , conversation.id)
             .get()
             .addOnSuccessListener { result ->
-               //
-                for (document in result) {
-                    val messagesData = document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
+                if(result!=null) {
+                    for (document in result) {
+                            val messagesData =
+                                document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
 
-                    for (messageData in messagesData) {
-                        val id = messageData["id"] as String
-                        val text = messageData["text"] as String
-                        val sender = messageData["sender"] as String
+                        if (messagesData!=null && messagesData.isNotEmpty()) {
+                            for (messageData in messagesData) {
+                                val id = messageData["id"] as String
+                                val text = messageData["text"] as String
+                                val sender = messageData["sender"] as String
 
-                        val message = Message(id, sender ,text) // Anpassa konstruktorn efter din Message-klass
-                        results.add(message)
+                                val message = Message(id, sender, text)
+                                results.add(message)
+                            }
+                        }
+                        Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
+                        activity.showMessages(results)
                     }
                 }
-                //
-                Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
-             activity.showMessages(results)
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
-    fun getConversations(activity: ChatActivity)
+    // provide arrarylist of users, fun checks if list matches list in db
+    fun getConversation(user1:String, user2: String, activity: ChatActivity,   callback: (Conversation) -> Unit)
     {
-        val results = ArrayList<Conversation>()
-
+        var returnMe = Conversation("-1",
+            ArrayList<Message>(), ArrayList
+        <User>())
         FirebaseFirestore
             .getInstance()
             .collection("conversations")
             .get()
             .addOnSuccessListener { result ->
-                for (document in result) {
-                    val id = document.getString(KEY_ID)
-                    var messages = document.get(KEY_MESSAGES) as ArrayList<Message>
-                    var users = document.get(KEY_USERS) as ArrayList<User>
+                // Foreach conversation figure out if input users are part of that conversation
+               for( document in result)
+               {
+                if(document!=null ) {
 
-                   val conversation = Conversation(id!!, messages, users)
-                    results.add(conversation)
+                    var dbusers = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
+//                    println(users +"\n" + iusers)
+                    // map hashmap to arraylist
+                    var users = ArrayList<User>()
+                    if (dbusers!=null && dbusers.isNotEmpty()) {
+                        for (messageData in dbusers) {
+                            val id = messageData["id"] as String
+                            val name = messageData["name"] as? String
+                            val password = messageData["password"] as? String
+                            val mail = messageData["email"] as String
+                            var dude = User(id, name, password, mail)
+                            users.add(dude)
+                        }
+                    }
+                    // check if input users are in users
+                    // if(users.contains(user1) && users.contains(user2)) <- have to map everything on user for this to work I suspect
+                    if(users.find{ it.name == user1} !=null && users.find{it.name == user2}!=null)
+                    {
+                        // found conversation
+                        val id = document.getString(KEY_ID)
+                        var dbmsgs = document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
+                        // map msgs to Arary List
+                        var results = ArrayList<Message>()
+                        if (dbmsgs!=null && dbmsgs.isNotEmpty()) {
+                            for (messageData in dbmsgs) {
+                                val id = messageData["id"] as String
+                                val text = messageData["text"] as String
+                                val sender = messageData["sender"] as String
+
+                                val message = Message(id, sender, text)
+                                results.add(message)
+                                break
+                            }
+                        }
+                        // Send back conversation and show messages
+                        val conversation = Conversation(id!!, results, users)
+                        returnMe = conversation
+                        activity.showMessages(results)
+                        break
+                    }
                 }
-                Log.i("SUCCSESS", " FETCHED CONVERSATIONS FROM FIRESTORE")
-                   activity.showConversations(results)
-            }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
+               }
+                if(returnMe.id != "-1")
+                {
+                    callback(returnMe)
+                }
+                else {
+                    callback(Conversation("-1", ArrayList<Message>(), ArrayList<User>()))
+                }
+                Log.i("SUCCSESS", " FETCHED CONVERSATION FROM FIRESTORE")
+            }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore")
+            callback(Conversation("-1",ArrayList<Message>(), ArrayList<User>()))}
     }
 }

@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityChatBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import java.util.UUID
 
 class ChatActivity : AppCompatActivity() {
@@ -18,23 +19,61 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val sentMessages = listOf("sent message 1 ", "sent message 2 ", "sent message 3 ")
-        val receivedMessages = listOf("Received message 1 ", "Received message 2")
+//        val sentMessages = listOf("sent message 1 ", "sent message 2 ", "sent message 3 ")
+//        val receivedMessages = listOf("Received message 1 ", "Received message 2")
 
 
-        createDummyConvo()
+//        createDummyConvo()
 
-//        sentMesssagesAdapter = MessagesSentAdapter(this, sentMessages)
-//        receievedMessagesAdapter = MessagesReceivedAdapter(this, receivedMessages)
+       binding.btnSend.setOnClickListener {
+           val message = binding.etChatMessage.text.toString()
+           sendMessage( message)
+       }
 
-//        binding.lvChatReceived.adapter = receievedMessagesAdapter
-//        binding.lvChatSent.adapter = sentMesssagesAdapter
+    }
 
-//        sentMesssagesAdapter.addAll(sentMessages)
-//        receievedMessagesAdapter.addAll(receivedMessages)
+    private fun sendMessage( message:String) {
 
-//        fetchMessages(dummyConvo)
+        var people = ArrayList<User>()
+        // User
+        val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
+        val json = prefs.getString("user","")
+        val gson = Gson()
+        val user = gson.fromJson(json, User::class.java)
+        people.add(user)
+//        var dennis = User("30e3f59b-8921-4b86-8cef-3788ccbae23f","dennis", "123","aklds@gmail.com")
+//        people.add(dennis)
+        // dummy conversation
+//        var converstion = Conversation(UUID.randomUUID().toString(), ArrayList<Message>(), people)
+//        conversationDao.createConversation(converstion)
+        // thae dude user watns to chat with
 
+        var reciever = intent.getStringExtra("reciver") as String
+        var userDao  = UserDao()
+         userDao.getUserByUserName(reciever){ dude ->
+             if(dude !=null)
+             {
+            people.add(dude)
+             }
+             // get conversation
+             conversationDao.getConversation(user.name!!,reciever,this){ conversation->
+                    //return -1 if there is no active conversation
+                 if(conversation.id!= "-1")
+                 {
+                     println("Found Converasation!")
+                     conversationDao.addMessage(conversation, user.name!!, message)
+                 }
+                 else if(conversation.id == "-1")
+                 {
+                     // create new convo
+                     println("We ballin")
+                     var msgs = ArrayList<Message>()
+                     msgs.add(Message(UUID.randomUUID().toString(),user.name!!, message))
+                     var newConversation = Conversation(UUID.randomUUID().toString(), msgs , people)
+                     conversationDao.createConversation(newConversation)
+                 }
+             }
+    }
     }
 
     private fun fetchMessages(converstion: Conversation) {
@@ -42,13 +81,25 @@ class ChatActivity : AppCompatActivity() {
     }
 
     fun showConversations(results: ArrayList<Conversation>) {
-
+           var a = ArrayList<Message>()
+            for(result in results)
+            {
+                a = result.messages
+            }
+        showMessages(a)
     }
     fun showMessages(results: ArrayList<Message>){
 
-        val user = intent.getSerializableExtra("user") as User
-        val sentAdapter = MessagesSentAdapter(this,results, user.name!!)
-        binding.lvChatSent.adapter = sentAdapter
+//        val user  = intent.getSerializableExtra("user") as User
+        val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
+        val json = prefs.getString("user","")
+        val gson = Gson()
+        val user = gson.fromJson(json, User::class.java)
+       println(user)
+        if(user !=null) {
+            val sentAdapter = MessagesSentAdapter(this, results, user. name!!)
+            binding.lvChatSent.adapter = sentAdapter
+        }
     }
 //#region TestingDummyData
     fun createDummyConvo(){
@@ -57,8 +108,11 @@ class ChatActivity : AppCompatActivity() {
         users.add(User("1","1","1","1"))
         users.add(User("1","1","1","1"))
 
-        var dummyConvo = Conversation("67a056e7-4bcf-4376-9a2a-7447cd925112", ArrayList<Message>() ,  users )
-        //    conversationDao.createConversation(dummyConvo) // create conversation and save it in database (change id to random UUID)
+   val sentMessages = ArrayList<Message>() //("sent message 1 ", "sent message 2 ", "sent message 3 ")
+    sentMessages.add(Message("qewqeq","God","Lets fuck shit up Lmao"))
+    sentMessages.add(Message("qewqeq","Satan","woah dude chill"))
+        var dummyConvo = Conversation("a7d997be-5fa6-438f-914e-d2c09171fd6a", sentMessages ,  users )
+//            conversationDao.createConversation(dummyConvo) // create conversation and save it in database (change id to random UUID)
 
        fetchMessages(dummyConvo)
     }

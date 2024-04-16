@@ -1,5 +1,6 @@
 package com.example.chatup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityProfileBinding
@@ -12,7 +13,6 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val userName = intent.getStringExtra("name")
         val userPresentation = intent.getStringExtra("presentation")
         //Way to handle picture
@@ -21,6 +21,10 @@ class ProfileActivity : AppCompatActivity() {
         binding.profileUsername.text = userName
         binding.profileDescription.text = userPresentation
 
-
+        binding.button3.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("reciver", userName)
+            startActivity(intent)
+        }
     }
 }
