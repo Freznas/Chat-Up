@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val password = binding.password.text.toString()
          userDao.checkUserCredentials(username, password){ validCredentials ->
              if (validCredentials) {
-                 val intent = Intent(this, ChatActivity::class.java)
+                   val intent = Intent(this, ConversationsActivity::class.java)
                    userDao.getUserByUserName(username){ user ->
                        if (user!=null) {
                            intent.putExtra("user", user )
