@@ -29,8 +29,7 @@ class ConversationsActivity : AppCompatActivity() {
     }
     fun navigateToProfile(user: User) {
         val intent = Intent(this, ProfileActivity::class.java)
-        intent.putExtra("source", "ConversationsActivity")
-
+        intent.putExtra("userId", user.id)
         intent.putExtra("name", user.name)
         intent.putExtra("presentation", user.presentation)
         intent.putExtra("profilepicture", user.profilePicture)

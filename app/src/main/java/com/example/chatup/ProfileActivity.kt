@@ -2,6 +2,7 @@ package com.example.chatup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityProfileBinding
@@ -21,27 +22,41 @@ class ProfileActivity : AppCompatActivity() {
         binding.profileUsername.text = userName
         binding.profileDescription.text = userPresentation
 
-    }
-
-
-    //Function to load relevant information to profile
-    fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
-        val source = intent.getStringExtra("source")
-        return if (source == "ConversationsActivity") {
-            Triple(
-                intent.getStringExtra("name"),
-                intent.getStringExtra("presentation"),
-                intent.getStringExtra("profilepicture")
-            )
-        } else {
-            Triple(
-                intent.getStringExtra("searchedName"),
-                intent.getStringExtra("searchedPresentation"),
-                intent.getStringExtra("searchedProfilepicture")
-            )
+        binding.button.setOnClickListener {
+            addFriend()
         }
     }
 
+    //Function to load relevant information to profile
+    fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
+        return Triple(
+            intent.getStringExtra("name"),
+            intent.getStringExtra("presentation"),
+            intent.getStringExtra("profilepicture")
+        )
+    }
+
+    private fun addFriend() {
+        val friendId = intent.getStringExtra("friendsid")
+        val userId = intent.getStringExtra("userId")
+        if (friendId != null) {
+            Log.d("ProfileActivity", "UserID: $userId, FriendID: $friendId")
+            userDao.addFriend(userId, friendId) { success ->
+                if (success) {
+
+                    Toast.makeText(this, "Vän tillagd", Toast.LENGTH_SHORT).show()
+                } else {
+
+                    Toast.makeText(this, "Misslyckades med att lägga till vän", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+        } else {
+            Log.d("ProfileActivity", "UserID: $userId, FriendID: $friendId")
+            Toast.makeText(this, "Vän-ID saknas", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
 }

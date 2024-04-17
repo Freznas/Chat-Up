@@ -1,10 +1,8 @@
 package com.example.chatup
 
-import android.content.Intent
 import android.util.Log
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
+import java.io.Serializable
 import java.net.URL
 
 class UserDao {
@@ -14,6 +12,7 @@ class UserDao {
     val KEY_EMAIL = "email"
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
+    val KEY_FRIENDS = "friends"
     fun addUser(user: User, callback: (Boolean) -> Unit)
     {
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
@@ -40,6 +39,7 @@ class UserDao {
                     dataToStore[KEY_PRESENTATION] = user.presentation as Any
                     dataToStore[KEY_PROFILEPICTURE] = user.profilePicture as Any
                     dataToStore[KEY_EMAIL] = user.email as Any
+                    dataToStore[KEY_FRIENDS] = user.friends as Any
 
                     FirebaseFirestore
                         .getInstance()
@@ -115,7 +115,7 @@ class UserDao {
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
 //    Function to search for users
-fun getUserByUserName(username: String, callback: (User) -> Unit) {
+    fun getUserByUserName(username: String, callback: (User) -> Unit) {
     FirebaseFirestore
         .getInstance()
         .collection("users")
@@ -138,7 +138,7 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
             }
             Log.i("SUCCSESS", " FETCHED USER FROM FIRESTORE")
         }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
-}
+    }
     fun searchUsers(query:String,callback:(List<User>)->Unit){
         val users = mutableListOf<User>()
         FirebaseFirestore.getInstance()
@@ -188,8 +188,33 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
             }
     }
 
+    fun addFriend(userId: Serializable?, friendId: String, callback: (Boolean) -> Unit) {
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId.toString())
+
+        userRef.get().addOnSuccessListener { documentSnapshot ->
+            val user = documentSnapshot.toObject(User::class.java)
+            if (user != null) {
+                user.friends.add(friendId)
+                userRef.update("friends", user.friends)
+                    .addOnSuccessListener {
+                        callback(true)
+                    }
+                    .addOnFailureListener { e ->
+                        callback(false)
+                    }
+            } else {
+                callback(false)
+            }
+        }.addOnFailureListener { e ->
+            callback(false)
+        }
+    }
+
+
+    }
 
 
 
 
-}
+
+
