@@ -130,6 +130,7 @@ class ConversationDao {
                         // found conversation
                         val id = document.getString(KEY_ID)
                         var dbmsgs = document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
+                        println("\n\n Messegegs: ${dbmsgs}")
                         // map msgs to Arary List
                         var results = ArrayList<Message>()
                         if (dbmsgs!=null && dbmsgs.isNotEmpty()) {
@@ -140,12 +141,12 @@ class ConversationDao {
 
                                 val message = Message(id, sender, text)
                                 results.add(message)
-                                break
                             }
                         }
                         // Send back conversation and show messages
-                        val conversation = Conversation(id!!, results, users)
-                        returnMe = conversation
+                        returnMe  = Conversation(document.id, results, users)
+
+                        // write decoded msgs to chat
                         activity.showMessages(results)
                         break
                     }
@@ -153,9 +154,11 @@ class ConversationDao {
                }
                 if(returnMe.id != "-1")
                 {
+                    println("id is not -1 im returning ${returnMe}")
                     callback(returnMe)
                 }
                 else {
+                    println("id is  -1 ")
                     callback(Conversation("-1", ArrayList<Message>(), ArrayList<User>()))
                 }
                 Log.i("SUCCSESS", " FETCHED CONVERSATION FROM FIRESTORE")

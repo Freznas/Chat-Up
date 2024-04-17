@@ -60,8 +60,9 @@ class ChatActivity : AppCompatActivity() {
                     //return -1 if there is no active conversation
                  if(conversation.id!= "-1")
                  {
-                     println("Found Converasation!")
-                     conversationDao.addMessage(conversation, user.name!!, message)
+                     println("\n\nFound Converasation!")
+                     println(conversation)
+                    conversationDao.addMessage(conversation, user.name!!, message)
                  }
                  else if(conversation.id == "-1")
                  {
