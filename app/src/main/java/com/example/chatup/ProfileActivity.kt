@@ -6,26 +6,39 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityProfileBinding
+import com.google.gson.Gson
 
 //Activity to display you profile, update with a profile picture and information about you.
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
     var userDao = UserDao()
-    var currentUser: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
+//        val userName = intent.getStringExtra("name")
+//        val userPresentation = intent.getStringExtra("presentation")
+        //Way to handle picture
+//        val userProfilePicture = intent.getStringExtra("profilepicture")
 
         // Get data from intent
-        val (userName, userPresentation) = extractUserData(intent)
+       val (userName, userPresentation) = extractUserData(intent)
         binding.profileUsername.text = userName
         binding.profileDescription.text = userPresentation
 
+
+        binding.button3.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("reciver", userName)
+            startActivity(intent)
+        }
         binding.button.setOnClickListener {
             addFriend()
+        }
+        binding.button4.setOnClickListener {
+            removeFriend()
         }
     }
 
@@ -39,24 +52,50 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun addFriend() {
-        //Can only fetch one of them depending on wich activity im coming from
-        val currentUser = intent.getSerializableExtra("user") as? User
+        val currentUser = getUser()
         val friendUser = intent.getSerializableExtra("frienduser") as? User
 
         if (currentUser != null && friendUser != null) {
+            // Kontrollera om vän redan finns i listan
+
             userDao.addFriend(currentUser, friendUser) { success ->
                 if (success) {
-
                     Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Failed to add friend", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed! Friend is already added", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
-            Log.i("Damn", "Här har vi den inloggade ${currentUser}")
-            Log.i("Damn", "Här har vi kompisen ${friendUser}")
             Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+
+    private fun removeFriend() {
+        val currentUser = getUser()
+        val friendUser = intent.getSerializableExtra("frienduser") as? User
+
+        if (currentUser != null && friendUser != null) {
+            userDao.removeFriend(currentUser, friendUser) { success ->
+                if (success) {
+                    Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed! Friend is already removed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun getUser(): User
+    {
+        val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
+        val json = prefs.getString("user", "")
+        val gson = Gson()
+        val user = gson.fromJson(json, User::class.java)
+        return  user
     }
 
 }

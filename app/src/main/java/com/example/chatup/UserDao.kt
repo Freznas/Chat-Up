@@ -136,8 +136,10 @@ class UserDao {
                 callback (foundUser)
             }
             Log.i("SUCCSESS", " FETCHED USER FROM FIRESTORE")
-        }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
-    }
+        }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore")
+        callback(User("", "","",""))}
+}
+
     fun searchUsers(query:String,callback:(List<User>)->Unit){
         val users = mutableListOf<User>()
         FirebaseFirestore.getInstance()
@@ -188,17 +190,61 @@ class UserDao {
     }
 
     fun addFriend(currentUser: User?, friendUser: User?, callback: (Boolean) -> Unit) {
-        if (currentUser != null && friendUser != null) {
-            val currentUserId = currentUser.id
-            val friendId = friendUser.id
-            val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
+        if (currentUser == null || friendUser == null) {
+            callback(false)
+            return
+        }
+        val currentUserId = currentUser.id
+        val friendId = friendUser.id
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
 
-            // Get the current user's document from Firestore
-            userRef.get().addOnSuccessListener { documentSnapshot ->
+        // Get the current user's document from Firestore
+        userRef.get()
+            .addOnSuccessListener { documentSnapshot ->
                 val user = documentSnapshot.toObject(User::class.java)
                 if (user != null) {
-                    // Add the friend's ID to the current user's friends list
-                    user.friends.add(friendId)
+                    if (!user.friends.contains(friendId)) {
+                        // Add the friend's ID to the current user's friends list
+                        user.friends.add(friendId)
+                        // Update the friends field in Firestore with the updated friends list
+                        userRef.update("friends", user.friends)
+                            .addOnSuccessListener {
+                                callback(true)
+                            }
+                            .addOnFailureListener { e ->
+                                callback(false)
+                            }
+                    } else {
+                        // Friend already exists in the list
+                        callback(false)
+                    }
+                } else {
+                    callback(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                callback(false)
+            }
+    }
+
+
+    fun removeFriend(currentUser: User?, friendUser: User?, callback: (Boolean) -> Unit) {
+        if (currentUser == null || friendUser == null) {
+            callback(false)
+            return
+        }
+        val currentUserId = currentUser.id
+        val friendId = friendUser.id
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
+
+        // Get the current user's document from Firestore
+        userRef.get().addOnSuccessListener { documentSnapshot ->
+            val user = documentSnapshot.toObject(User::class.java)
+            if (user != null) {
+                // Check if friend exists in the current user's friends list
+                if (user.friends.contains(friendId)) {
+                    // Remove the friend's ID from the current user's friends list
+                    user.friends.remove(friendId)
                     // Update the friends field in Firestore with the updated friends list
                     userRef.update("friends", user.friends)
                         .addOnSuccessListener {
@@ -208,15 +254,19 @@ class UserDao {
                             callback(false)
                         }
                 } else {
+                    // Friend does not exist in the list
                     callback(false)
+                    // Optionally, you can provide a toast or another form of notification here
                 }
-            }.addOnFailureListener { e ->
+            } else {
                 callback(false)
             }
-        } else {
+        }.addOnFailureListener { e ->
             callback(false)
         }
     }
+
+
 
 
 

@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="586dp"
+        android:layout_height="400dp"
         android:baselineAligned="false"
         android:orientation="horizontal">
 
@@ -25,7 +25,7 @@
         <ListView
             android:id="@+id/lv_chat_sent"
             android:layout_width="368dp"
-            android:layout_height="575dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_weight="1"
             android:divider="@android:color/transparent"
