@@ -140,7 +140,8 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
                 callback (foundUser)
             }
             Log.i("SUCCSESS", " FETCHED USER FROM FIRESTORE")
-        }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
+        }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore")
+        callback(User("", "","",""))}
 }
     fun searchUsers(query:String,callback:(List<User>)->Unit){
         Log.d("FirestoreQuery", "Starting searchUsers query with query: $query")
