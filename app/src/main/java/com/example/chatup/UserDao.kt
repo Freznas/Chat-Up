@@ -2,6 +2,7 @@ package com.example.chatup
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import java.net.URL
 
 class UserDao {
@@ -198,13 +199,13 @@ class UserDao {
         val friendId = friendUser.id
         val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
 
-        // Get the current user's document from Firestore
+        // Get the current users document from Firestore
         userRef.get()
             .addOnSuccessListener { documentSnapshot ->
                 val user = documentSnapshot.toObject(User::class.java)
                 if (user != null) {
                     if (!user.friends.contains(friendId)) {
-                        // Add the friend's ID to the current user's friends list
+                        // Add the friends ID to the current users friends list
                         user.friends.add(friendId)
                         // Update the friends field in Firestore with the updated friends list
                         userRef.update("friends", user.friends)
@@ -237,13 +238,13 @@ class UserDao {
         val friendId = friendUser.id
         val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
 
-        // Get the current user's document from Firestore
+        // Get the current users document from Firestore
         userRef.get().addOnSuccessListener { documentSnapshot ->
             val user = documentSnapshot.toObject(User::class.java)
             if (user != null) {
-                // Check if friend exists in the current user's friends list
+                // Check if friend exists in the current users friends list
                 if (user.friends.contains(friendId)) {
-                    // Remove the friend's ID from the current user's friends list
+                    // Remove the friends ID from the current users friends list
                     user.friends.remove(friendId)
                     // Update the friends field in Firestore with the updated friends list
                     userRef.update("friends", user.friends)
@@ -254,9 +255,8 @@ class UserDao {
                             callback(false)
                         }
                 } else {
-                    // Friend does not exist in the list
+
                     callback(false)
-                    // Optionally, you can provide a toast or another form of notification here
                 }
             } else {
                 callback(false)
@@ -264,6 +264,34 @@ class UserDao {
         }.addOnFailureListener { e ->
             callback(false)
         }
+    }
+
+    //Suspend because of coroutine operation
+    suspend fun getAllFriendsForUser(userId: String): List<User> {
+        // Initialize a mutable list to hold the user's friends
+        val friends = mutableListOf<User>()
+        try {
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+            val snapshot = userRef.get().await()
+            // Check if the user document exists
+            if (snapshot.exists()) {
+                val user = snapshot.toObject(User::class.java)
+                // Iterate through each friend ID in the user's friends list
+                user?.friends?.forEach { friendId ->
+                    // Get a reference to the Firestore document for the friend
+                    val friendSnapshot = FirebaseFirestore.getInstance().collection("users").document(friendId).get().await()
+                    // Parse the friend object from the snapshot
+                    val friend = friendSnapshot.toObject(User::class.java)
+                    // Add the friend to the list of friends
+                    friend?.let { friends.add(it) }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("Failed", "Failed to fetch all friends for user")
+        }
+
+        // Return the list of friends
+        return friends
     }
 
 

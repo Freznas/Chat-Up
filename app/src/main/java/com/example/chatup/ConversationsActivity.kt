@@ -1,18 +1,33 @@
 package com.example.chatup
 //Activity to display the different conversations active by the logged in user
+
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityConversationsBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ConversationsActivity : AppCompatActivity() {
     lateinit var binding: ActivityConversationsBinding
     var currentUser: User? = null
+    var userDao = UserDao()
+    private lateinit var friendAdapter: ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         binding = ActivityConversationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        //Spinner adapter
+        friendAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item)
+        friendAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerFriends.adapter = friendAdapter
+
 
         currentUser = intent.getSerializableExtra("user") as? User
 
@@ -26,7 +41,27 @@ class ConversationsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
 
+    override fun onResume() {
+        super.onResume()
+        // Update friendslist when returning to activity
+        loadCurrentUserFriendsSpinner()
+    }
+    private fun loadCurrentUserFriendsSpinner() {
+        GlobalScope.launch(Dispatchers.Main) {
+            // Check if the current user is not null
+            currentUser?.let { user ->
+                // Get all friends for the current user
+                val friends = userDao.getAllFriendsForUser(user.id)
+                // Extract the names of the friends
+                val friendNames = friends.map { it.name }
+
+                friendAdapter.clear()
+                friendAdapter.addAll(friendNames)
+                friendAdapter.notifyDataSetChanged()
+            }
+        }
     }
     fun navigateToProfile(user: User) {
         val intent = Intent(this, ProfileActivity::class.java)
