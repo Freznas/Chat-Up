@@ -3,11 +3,8 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
-import android.widget.Toast
 import com.example.chatup.databinding.ActivitySearchUserBinding
 
 class SearchUserActivity : AppCompatActivity() {
@@ -38,13 +35,18 @@ class SearchUserActivity : AppCompatActivity() {
 //            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
 
             val intent = Intent(this, ProfileActivity::class.java)
-
+            intent.putExtra("frienduser", selectedUsername)
+            intent.putExtra("friendsid", selectedUsername?.id)
             intent.putExtra("name", selectedUsername?.name)
             intent.putExtra("presentation", selectedUsername?.presentation)
             intent.putExtra("profilepicture", selectedUsername?.profilePicture.toString())
 
+
+
             startActivity(intent)
         }
+
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
