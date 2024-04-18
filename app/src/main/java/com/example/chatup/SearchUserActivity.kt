@@ -29,6 +29,7 @@ class SearchUserActivity : AppCompatActivity() {
         searchView = findViewById(R.id.sv_search_user)
         listView = findViewById(R.id.lv_search_user)
 
+
         adapter = SearchUserAdapter(this, ArrayList())
         listView.adapter = adapter
 
@@ -36,14 +37,18 @@ class SearchUserActivity : AppCompatActivity() {
             val selectedUsername = adapter.getItem(position)
             Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
             val intent = Intent(this, ProfileActivity::class.java)
-            intent.putExtra("selectedUser",selectedUsername)
-
+            intent.putExtra("frienduser", selectedUsername)
+            intent.putExtra("friendsid", selectedUsername?.id)
             intent.putExtra("name", selectedUsername?.name)
             intent.putExtra("presentation", selectedUsername?.presentation)
             intent.putExtra("profilepicture", selectedUsername?.profilePicture.toString())
 
+
+
             startActivity(intent)
         }
+
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -61,7 +66,6 @@ class SearchUserActivity : AppCompatActivity() {
             }
         })
     }
-
 
     // Function to search based on query
     fun performSearch(query: String) {

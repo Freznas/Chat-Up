@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.chatup.databinding.ActivityMainBinding
 import com.google.gson.Gson
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                  userDao.getUserByUserName(username){ user ->
                        if (user!=null) {
                            println(user.name)
-                           val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
+                           val prefs = getSharedPreferences("com.example.chatup.prefs", MODE_PRIVATE)
                            val editor: SharedPreferences.Editor = prefs.edit()
                            val gson = Gson()
                            val json: String = gson.toJson(user)
