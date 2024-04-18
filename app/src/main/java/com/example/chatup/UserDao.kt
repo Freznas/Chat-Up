@@ -2,7 +2,6 @@ package com.example.chatup
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import java.io.Serializable
 import java.net.URL
 
 class UserDao {
@@ -188,30 +187,42 @@ class UserDao {
             }
     }
 
-    fun addFriend(userId: Serializable?, friendId: String, callback: (Boolean) -> Unit) {
-        val userRef = FirebaseFirestore.getInstance().collection("users").document(userId.toString())
+    fun addFriend(currentUser: User?, friendUser: User?, callback: (Boolean) -> Unit) {
+        if (currentUser != null && friendUser != null) {
+            val currentUserId = currentUser.id
+            val friendId = friendUser.id
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
 
-        userRef.get().addOnSuccessListener { documentSnapshot ->
-            val user = documentSnapshot.toObject(User::class.java)
-            if (user != null) {
-                user.friends.add(friendId)
-                userRef.update("friends", user.friends)
-                    .addOnSuccessListener {
-                        callback(true)
-                    }
-                    .addOnFailureListener { e ->
-                        callback(false)
-                    }
-            } else {
+            // Get the current user's document from Firestore
+            userRef.get().addOnSuccessListener { documentSnapshot ->
+                val user = documentSnapshot.toObject(User::class.java)
+                if (user != null) {
+                    // Add the friend's ID to the current user's friends list
+                    user.friends.add(friendId)
+                    // Update the friends field in Firestore with the updated friends list
+                    userRef.update("friends", user.friends)
+                        .addOnSuccessListener {
+                            callback(true)
+                        }
+                        .addOnFailureListener { e ->
+                            callback(false)
+                        }
+                } else {
+                    callback(false)
+                }
+            }.addOnFailureListener { e ->
                 callback(false)
             }
-        }.addOnFailureListener { e ->
+        } else {
             callback(false)
         }
     }
 
 
-    }
+
+
+
+}
 
 
 

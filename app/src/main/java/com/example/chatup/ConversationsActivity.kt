@@ -3,6 +3,7 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.chatup.databinding.ActivityConversationsBinding
 
 class ConversationsActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class ConversationsActivity : AppCompatActivity() {
     }
     fun navigateToProfile(user: User) {
         val intent = Intent(this, ProfileActivity::class.java)
+        intent.putExtra("user", user)
         intent.putExtra("userId", user.id)
         intent.putExtra("name", user.name)
         intent.putExtra("presentation", user.presentation)

@@ -11,14 +11,16 @@ import com.example.chatup.databinding.ActivityProfileBinding
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
     var userDao = UserDao()
+    var currentUser: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         // Get data from intent
         val (userName, userPresentation) = extractUserData(intent)
-
         binding.profileUsername.text = userName
         binding.profileDescription.text = userPresentation
 
@@ -37,26 +39,24 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun addFriend() {
-        val friendId = intent.getStringExtra("friendsid")
-        val userId = intent.getStringExtra("userId")
-        if (friendId != null) {
-            Log.d("ProfileActivity", "UserID: $userId, FriendID: $friendId")
-            userDao.addFriend(userId, friendId) { success ->
+        //Can only fetch one of them depending on wich activity im coming from
+        val currentUser = intent.getSerializableExtra("user") as? User
+        val friendUser = intent.getSerializableExtra("frienduser") as? User
+
+        if (currentUser != null && friendUser != null) {
+            userDao.addFriend(currentUser, friendUser) { success ->
                 if (success) {
 
-                    Toast.makeText(this, "Vän tillagd", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show()
                 } else {
-
-                    Toast.makeText(this, "Misslyckades med att lägga till vän", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "Failed to add friend", Toast.LENGTH_SHORT).show()
                 }
             }
-
         } else {
-            Log.d("ProfileActivity", "UserID: $userId, FriendID: $friendId")
-            Toast.makeText(this, "Vän-ID saknas", Toast.LENGTH_SHORT).show()
+            Log.i("Damn", "Här har vi den inloggade ${currentUser}")
+            Log.i("Damn", "Här har vi kompisen ${friendUser}")
+            Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
         }
     }
-
 
 }
