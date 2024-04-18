@@ -40,7 +40,7 @@ class ChatActivity : AppCompatActivity() {
                 users.add(dude)
              }
              // check if conversation exists returns id == -1 if there is no active conversation
-             conversationDao.getConversation(user.name!!,reciever,this){ conversation->
+             conversationDao.getConversation(user.name!!,reciever){ conversation->
                  if(conversation.id!= "-1")
                  {
                     conversationDao.addMessage(conversation, user.name!!, message)
@@ -52,6 +52,7 @@ class ChatActivity : AppCompatActivity() {
                      var newConversation = Conversation(UUID.randomUUID().toString(), msgs , users)
                      conversationDao.createConversation(newConversation)
                  }
+                 fetchMessages()
              }
     }
     }
@@ -59,7 +60,7 @@ class ChatActivity : AppCompatActivity() {
         val user = getUser()
         var reciever = intent.getStringExtra("reciver") as String
 
-        conversationDao.getConversation(user.name!!,reciever,this){ conversation->
+        conversationDao.getConversation(user.name!!,reciever){ conversation->
             conversationDao.getMessages(conversation, this)
             }
     }

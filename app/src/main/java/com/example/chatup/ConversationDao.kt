@@ -49,7 +49,7 @@ class ConversationDao {
                         Log.w("Failure", "Error writing document", exception)
                     }
     }
-    fun getConversation(user1:String, user2: String, activity: ChatActivity,   callback: (Conversation) -> Unit)
+    fun getConversation(user1:String, user2: String, callback: (Conversation) -> Unit)
     {
         var foundConversation = Conversation("-1",
             ArrayList<Message>(), ArrayList
@@ -75,9 +75,7 @@ class ConversationDao {
                             if (dbmsgs!=null && dbmsgs.isNotEmpty()) {
                                 results = mapMessagesToArrayList(dbmsgs)
                             }
-                            // Send back conversation and show messages
                             foundConversation  = Conversation(document.id, results, users)
-                            activity.showMessages(results)
                             break
                         }
                     }
