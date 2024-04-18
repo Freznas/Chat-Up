@@ -2,8 +2,6 @@ package com.example.chatup
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import java.net.MalformedURLException
-import java.net.URL
 import java.util.UUID
 
 
@@ -30,6 +28,7 @@ class ConversationDao {
                 Log.e("Error"," Query failed", exception)
             }
     }
+    //#region Conversation
     fun createConversation(conversation: Conversation  )
     {
 //        val conversationCollection = FirebaseFirestore.getInstance().collection("conversations")
@@ -50,6 +49,54 @@ class ConversationDao {
                         Log.w("Failure", "Error writing document", exception)
                     }
     }
+    fun getConversation(user1:String, user2: String, activity: ChatActivity,   callback: (Conversation) -> Unit)
+    {
+        var foundConversation = Conversation("-1",
+            ArrayList<Message>(), ArrayList
+            <User>())
+        FirebaseFirestore
+            .getInstance()
+            .collection("conversations")
+            .get()
+            .addOnSuccessListener { result ->
+                // Foreach conversation figure out if user1 & 2 are part of that conversation
+                for( document in result)
+                {
+                    if(document!=null ) {
+                        var dbusers = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
+                        var users = ArrayList<User>()
+                        if (dbusers!=null && dbusers.isNotEmpty()) {
+                            users = mapUsersToArrayList(dbusers)
+                        }
+                        if(users.find{ it.name == user1} !=null && users.find{it.name == user2}!=null)
+                        {
+                            var dbmsgs = document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
+                            var results = ArrayList<Message>()
+                            if (dbmsgs!=null && dbmsgs.isNotEmpty()) {
+                                results = mapMessagesToArrayList(dbmsgs)
+                            }
+                            // Send back conversation and show messages
+                            foundConversation  = Conversation(document.id, results, users)
+                            activity.showMessages(results)
+                            break
+                        }
+                    }
+                }
+                if(foundConversation.id != "-1")
+                {
+                    println("id is not -1 im returning ${foundConversation}")
+                    callback(foundConversation)
+                }
+                else {
+                    println("id is  -1 ")
+                    callback(Conversation("-1", ArrayList<Message>(), ArrayList<User>()))
+                }
+                Log.i("SUCCSESS", " FETCHED CONVERSATION FROM FIRESTORE")
+            }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch CONVERSATION from firestore")
+            }
+    }
+    //#endregion
+    //#region messages
     fun addMessage(conversation: Conversation, sender: String, msg: String)
     {
 
@@ -93,76 +140,33 @@ class ConversationDao {
                 }
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
-    // provide arrarylist of users, fun checks if list matches list in db
-    fun getConversation(user1:String, user2: String, activity: ChatActivity,   callback: (Conversation) -> Unit)
+    //#endregion
+    //#region mapping
+    fun mapUsersToArrayList(hashMap: ArrayList<HashMap<String, Any>>): ArrayList<User>
     {
-        var returnMe = Conversation("-1",
-            ArrayList<Message>(), ArrayList
-        <User>())
-        FirebaseFirestore
-            .getInstance()
-            .collection("conversations")
-            .get()
-            .addOnSuccessListener { result ->
-                // Foreach conversation figure out if input users are part of that conversation
-               for( document in result)
-               {
-                if(document!=null ) {
-
-                    var dbusers = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
-//                    println(users +"\n" + iusers)
-                    // map hashmap to arraylist
-                    var users = ArrayList<User>()
-                    if (dbusers!=null && dbusers.isNotEmpty()) {
-                        for (messageData in dbusers) {
-                            val id = messageData["id"] as String
-                            val name = messageData["name"] as? String
-                            val password = messageData["password"] as? String
-                            val mail = messageData["email"] as String
-                            var dude = User(id, name, password, mail)
-                            users.add(dude)
-                        }
-                    }
-                    // check if input users are in users
-                    // if(users.contains(user1) && users.contains(user2)) <- have to map everything on user for this to work I suspect
-                    if(users.find{ it.name == user1} !=null && users.find{it.name == user2}!=null)
-                    {
-                        // found conversation
-                        val id = document.getString(KEY_ID)
-                        var dbmsgs = document.get(KEY_MESSAGES) as ArrayList<HashMap<String, Any>>
-                        println("\n\n Messegegs: ${dbmsgs}")
-                        // map msgs to Arary List
-                        var results = ArrayList<Message>()
-                        if (dbmsgs!=null && dbmsgs.isNotEmpty()) {
-                            for (messageData in dbmsgs) {
-                                val id = messageData["id"] as String
-                                val text = messageData["text"] as String
-                                val sender = messageData["sender"] as String
-
-                                val message = Message(id, sender, text)
-                                results.add(message)
-                            }
-                        }
-                        // Send back conversation and show messages
-                        returnMe  = Conversation(document.id, results, users)
-
-                        // write decoded msgs to chat
-                        activity.showMessages(results)
-                        break
-                    }
-                }
-               }
-                if(returnMe.id != "-1")
-                {
-                    println("id is not -1 im returning ${returnMe}")
-                    callback(returnMe)
-                }
-                else {
-                    println("id is  -1 ")
-                    callback(Conversation("-1", ArrayList<Message>(), ArrayList<User>()))
-                }
-                Log.i("SUCCSESS", " FETCHED CONVERSATION FROM FIRESTORE")
-            }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore")
-            callback(Conversation("-1",ArrayList<Message>(), ArrayList<User>()))}
+        var users = ArrayList<User>()
+        for (messageData in hashMap) {
+            val id = messageData["id"] as String
+            val name = messageData["name"] as? String
+            val password = messageData["password"] as? String
+            val mail = messageData["email"] as String
+            var dude = User(id, name, password, mail)
+            users.add(dude)
+        }
+        return users
     }
+    fun mapMessagesToArrayList(hashMap: ArrayList<HashMap<String, Any>>): ArrayList<Message>
+    {
+        var messages = ArrayList<Message>()
+        for (messageData in hashMap) {
+            val id = messageData["id"] as String
+            val text = messageData["text"] as String
+            val sender = messageData["sender"] as String
+
+            val message = Message(id, sender, text)
+            messages.add(message)
+        }
+        return messages
+    }
+    //#endregion
 }
