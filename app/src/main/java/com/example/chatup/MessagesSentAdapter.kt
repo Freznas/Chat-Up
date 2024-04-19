@@ -1,51 +1,42 @@
 package com.example.chatup
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class MessagesSentAdapter(context: Context, private val messages: List<Message>,var user: String) :
     ArrayAdapter<Message>(context, 0, messages) {
-
+    private val USER_VIEW_TYPE = 0
+    private val OTHER_VIEW_TYPE = 1
     override fun getViewTypeCount(): Int {
-        return 1
+        return 2
     }
-
     override fun getItemViewType(position: Int): Int {
-        return 0
+        val item = messages[position]
+        return if (item.sender == user) {
+            USER_VIEW_TYPE
+        } else {
+            OTHER_VIEW_TYPE
+        }
     }
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val viewType = getItemViewType(position)
         var itemView = convertView
-        val viewHolder : ViewHolder
-        val message =  getItem(position) as Message
+
         if (itemView == null) {
-            val layoutId = if (message.sender == user) {
-                R.layout.listview_sent_messages
-            } else {
-                R.layout.listview_received_messages
+            val inflater = LayoutInflater.from(context)
+            itemView = when (viewType) {
+                USER_VIEW_TYPE -> inflater.inflate(R.layout.listview_sent_messages, parent, false)
+                OTHER_VIEW_TYPE -> inflater.inflate(R.layout.listview_received_messages, parent, false)
+                else -> throw IllegalArgumentException("Invalid view type")
             }
-           itemView = LayoutInflater.from(context)
-               .inflate(layoutId, parent, false)
-            viewHolder = ViewHolder()
-            viewHolder.messageTextView = itemView.findViewById(R.id.tv_message)
-            itemView.tag = viewHolder
-//            inflate(R.layout.listview_sent_messages, parent, false)
-        } else {
-            viewHolder = itemView.tag as ViewHolder
         }
-        // Set message content
-        viewHolder.messageTextView.text = message.text
+        val tv = itemView!!.findViewById<TextView>(R.id.tv_message)
+        tv.text = messages[position].text
         return itemView!!
-
-
-    }
-    private class ViewHolder {
-        lateinit var messageTextView: TextView
     }
 }
