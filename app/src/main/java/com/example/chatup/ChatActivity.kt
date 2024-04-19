@@ -73,7 +73,7 @@ class ChatActivity : AppCompatActivity() {
     }
     fun getUser(): User
     {
-        val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
+        val prefs = getSharedPreferences("com.example.chatup.prefs", MODE_PRIVATE)
         val json = prefs.getString("user", "")
         val gson = Gson()
         val user = gson.fromJson(json, User::class.java)

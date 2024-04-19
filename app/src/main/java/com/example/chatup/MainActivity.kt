@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                  userDao.getUserByUserName(username){ user ->
                        if (user!=null) {
                            println(user.name)
-                           val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
+                           val prefs = getSharedPreferences("com.example.chatup.prefs", MODE_PRIVATE)
                            val editor: SharedPreferences.Editor = prefs.edit()
                            val gson = Gson()
                            val json: String = gson.toJson(user)
