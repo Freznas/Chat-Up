@@ -2,7 +2,6 @@ package com.example.chatup
 // Activity to Display the active Chat between two or more users.
 import android.R
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityChatBinding
 import com.google.firebase.firestore.FirebaseFirestore
