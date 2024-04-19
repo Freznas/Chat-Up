@@ -51,6 +51,7 @@ class ChatActivity : AppCompatActivity() {
                      msgs.add(Message(UUID.randomUUID().toString(),user.name!!, message))
                      var newConversation = Conversation(UUID.randomUUID().toString(), msgs , users)
                      conversationDao.createConversation(newConversation)
+                     fetchMessages()
                  }
 //                 fetchMessages()
              }
