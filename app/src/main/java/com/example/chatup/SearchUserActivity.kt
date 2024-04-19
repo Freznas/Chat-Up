@@ -3,8 +3,11 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.SearchView
+import android.widget.Toast
 import com.example.chatup.databinding.ActivitySearchUserBinding
 
 class SearchUserActivity : AppCompatActivity() {
@@ -32,8 +35,7 @@ class SearchUserActivity : AppCompatActivity() {
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedUsername = adapter.getItem(position)
-//            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
-
+            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("frienduser", selectedUsername)
             intent.putExtra("friendsid", selectedUsername?.id)

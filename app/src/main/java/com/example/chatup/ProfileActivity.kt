@@ -1,10 +1,9 @@
 package com.example.chatup
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
 import com.example.chatup.databinding.ActivityProfileBinding
 import com.google.gson.Gson
 
@@ -18,6 +17,10 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        val userProfilePicture = intent.getStringExtra("profilepicture")
+//        val selectedUser = intent.getSerializableExtra("selectedUser") as User
+
+
 //        val userName = intent.getStringExtra("name")
 //        val userPresentation = intent.getStringExtra("presentation")
         //Way to handle picture
@@ -29,15 +32,15 @@ class ProfileActivity : AppCompatActivity() {
         binding.profileDescription.text = userPresentation
 
 
-        binding.button3.setOnClickListener {
+        binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("reciver", userName)
             startActivity(intent)
         }
-        binding.button.setOnClickListener {
+        binding.btnAddFriend.setOnClickListener {
             addFriend()
         }
-        binding.button4.setOnClickListener {
+        binding.btnRemove.setOnClickListener {
             removeFriend()
         }
     }

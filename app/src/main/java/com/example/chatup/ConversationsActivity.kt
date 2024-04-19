@@ -12,9 +12,17 @@ import kotlinx.coroutines.launch
 
 class ConversationsActivity : AppCompatActivity() {
     lateinit var binding: ActivityConversationsBinding
-    var currentUser: User? = null
+    lateinit var currentUser: User
+    val conversationsList: MutableList<ActiveConversations> = mutableListOf()
     var userDao = UserDao()
+    var conversationDAO = ConversationDao()
     private lateinit var friendAdapter: ArrayAdapter<String>
+//    val conversationIDs: List<String> =
+//        intent.getStringArrayListExtra("conversationIDs") ?: emptyList()
+//    val adapter =
+//        ConversationsAdapter(this, conversationsList, currentUser, conversationIDs)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -22,15 +30,19 @@ class ConversationsActivity : AppCompatActivity() {
         binding = ActivityConversationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         //Spinner adapter
         friendAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item)
         friendAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFriends.adapter = friendAdapter
 
 
-        currentUser = intent.getSerializableExtra("user") as? User
+        currentUser = intent.getSerializableExtra("user") as User
+        conversationDAO.getUserConversations(currentUser.name!!, this)
+        {
+        conversations -> val conversationsAdapter = ConversationsAdapter(this,conversations,currentUser)
 
+            binding.lvConversation.adapter = conversationsAdapter
+        }
         binding.btnMyProfile.setOnClickListener {
             navigateToProfile(currentUser!!)
 
@@ -43,11 +55,13 @@ class ConversationsActivity : AppCompatActivity() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         // Update friendslist when returning to activity
         loadCurrentUserFriendsSpinner()
     }
+
     private fun loadCurrentUserFriendsSpinner() {
         GlobalScope.launch(Dispatchers.Main) {
             // Check if the current user is not null
@@ -56,13 +70,13 @@ class ConversationsActivity : AppCompatActivity() {
                 val friends = userDao.getAllFriendsForUser(user.id)
                 // Extract the names of the friends
                 val friendNames = friends.map { it.name }
-
                 friendAdapter.clear()
                 friendAdapter.addAll(friendNames)
                 friendAdapter.notifyDataSetChanged()
             }
         }
     }
+
     fun navigateToProfile(user: User) {
         val intent = Intent(this, ProfileActivity::class.java)
         intent.putExtra("user", user)

@@ -2,7 +2,6 @@ package com.example.chatup
 // Activity to Display the active Chat between two or more users.
 import android.R
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityChatBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,6 +18,14 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val sentMessages = listOf("sent message 1 ", "sent message 2 ", "sent message 3 ")
+        val receivedMessages = listOf("Received message 1 ", "Received message 2")
+
+
+        createDummyConvo()
+
+//        sentMesssagesAdapter = MessagesSentAdapter(this, sentMessages)
+//        receievedMessagesAdapter = MessagesReceivedAdapter(this, receivedMessages)
 
            fetchMessages()
            binding.btnSend.setOnClickListener {

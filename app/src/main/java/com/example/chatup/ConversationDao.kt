@@ -49,6 +49,40 @@ class ConversationDao {
                         Log.w("Failure", "Error writing document", exception)
                     }
     }
+
+    fun getUserConversations(user1: String,activity: ConversationsActivity, callback:(MutableList<Conversation>) -> Unit){
+        val activeConversations = mutableListOf<Conversation>()
+
+        FirebaseFirestore
+            .getInstance()
+            .collection("conversations")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result){
+                    if(document!=null)
+                    {
+                        var dbusers = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
+                        var users = ArrayList<User>()
+                        if (dbusers!=null && dbusers.isNotEmpty()) {
+                            users = mapUsersToArrayList(dbusers)
+                        }
+                        if(users.find{ it.name == user1}!=null){
+                            var dbConversations = document
+                            val id = document.getString(KEY_ID)
+                            val messages = document.get(KEY_MESSAGES) as ArrayList<Message>
+                            val users = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
+                            var user = ArrayList<User>()
+                            user = mapUsersToArrayList(users)
+                            activeConversations.add(Conversation(id!!,messages,user))
+
+                        }
+                    }
+                }
+                callback(activeConversations)
+
+            }
+
+    }
     fun getConversation(user1:String, user2: String, activity: ChatActivity, callback: (Conversation) -> Unit)
     {
         var foundConversation = Conversation("-1",
