@@ -10,12 +10,11 @@ import android.widget.TextView
 
 class ConversationsAdapter(
     context: Context,
-    conversations: MutableList<Conversation>,
+    activeConversations: MutableList<Conversation>,
     var currentUser: User?
-//    var otherUser: String,
-//    var conversationIDs: List<String>
+
 ) :
-    ArrayAdapter<Conversation>(context, 0, conversations) {
+    ArrayAdapter<Conversation>(context, 0, activeConversations) {
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

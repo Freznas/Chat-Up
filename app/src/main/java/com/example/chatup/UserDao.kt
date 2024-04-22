@@ -313,12 +313,6 @@ class UserDao {
         return friends
     }
 
-
-
-
-
-
-
 }
 
 

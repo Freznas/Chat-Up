@@ -1,6 +1,8 @@
 package com.example.chatup
 
 import android.content.Context
+
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.chatup.databinding.ActivityChatBinding.inflate
+
 
 class MessagesSentAdapter(context: Context, messages: List<Message>,var user: String) :
     ArrayAdapter<Message>(context, 0, messages) {

@@ -27,15 +27,13 @@ class SearchUserActivity : AppCompatActivity() {
         userDao = UserDao()
 
         searchView = findViewById(R.id.sv_search_user)
-        listView = findViewById(R.id.lv_search_user)
 
 
         adapter = SearchUserAdapter(this, ArrayList())
         listView.adapter = adapter
 
-        listView.setOnItemClickListener { _, _, position, _ ->
+        binding.lvSearchUser.setOnItemClickListener { _, _, position, _ ->
             val selectedUsername = adapter.getItem(position)
-            Toast.makeText(this, "Selected user $selectedUsername", Toast.LENGTH_LONG).show()
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("frienduser", selectedUsername)
             intent.putExtra("friendsid", selectedUsername?.id)
