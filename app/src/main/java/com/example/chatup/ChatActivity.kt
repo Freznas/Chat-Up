@@ -12,17 +12,14 @@ import java.util.UUID
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
-    private lateinit var sentMesssagesAdapter: MessagesSentAdapter
     private val firestoreDB = FirebaseFirestore.getInstance()
     var conversationDao = ConversationDao()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val sentMessages = listOf("sent message 1 ", "sent message 2 ", "sent message 3 ")
-        val receivedMessages = listOf("Received message 1 ", "Received message 2")
-        val docref = firestoreDB.collection("conversations")
 
+        val docref = firestoreDB.collection("conversations")
         docref.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e)
@@ -38,15 +35,14 @@ class ChatActivity : AppCompatActivity() {
                 Log.d(TAG, "Current data: null")
             }
         }
-//          fetchMessages()
            binding.btnSend.setOnClickListener {
            val message = binding.etChatMessage.text.toString()
            sendMessage( message)
        }
-        fetchMessages()
         binding.btnSend.setOnClickListener {
             val message = binding.etChatMessage.text.toString()
             sendMessage(message)
+            binding.etChatMessage.text.clear()
         }
     }
     private fun sendMessage(message: String) {
@@ -69,9 +65,7 @@ class ChatActivity : AppCompatActivity() {
                     msgs.add(Message(UUID.randomUUID().toString(), user.name!!, message))
                     var newConversation = Conversation(UUID.randomUUID().toString(), msgs, users)
                     conversationDao.createConversation(newConversation)
-                    fetchMessages()
                 }
-//                 fetchMessages()
             }
         }
     }
