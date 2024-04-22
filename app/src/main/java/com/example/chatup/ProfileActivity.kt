@@ -14,10 +14,13 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
     var userDao = UserDao()
     lateinit var currentUser: User
+    lateinit var soundManager: SoundManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        soundManager = SoundManager(this)
 
 
         currentUser = getUser()
@@ -36,6 +39,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("receiver", userName)
+            soundManager.chatUpSound()
             startActivity(intent)
         }
         binding.btnAddFriend.setOnClickListener {
@@ -44,6 +48,10 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnRemove.setOnClickListener {
             removeFriend()
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        soundManager.release()
     }
 
     private fun hideAllButtons() {
