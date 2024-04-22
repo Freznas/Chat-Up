@@ -31,6 +31,9 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnUpdate.setOnClickListener {
             updateUser()
         }
+        binding.btnDelete.setOnClickListener {
+            deleteUser()
+        }
         binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("receiver", userName)
@@ -59,12 +62,24 @@ class ProfileActivity : AppCompatActivity() {
         var user = getUser()
         user.presentation = binding.profileDescription.text.toString()
         userDao.updateUser(user)
+        Toast.makeText(this, "User updated succesfully!", Toast.LENGTH_SHORT).show()
         val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
         val gson = Gson()
         val json: String = gson.toJson(user)
         editor.putString("user", json)
         editor.apply()
+    }
+    private fun deleteUser()
+    {
+        val user = getUser()
+        userDao.deleteUser(user)
+        Toast.makeText(this, "User deleted succesfully!", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        startActivity(intent)
+        finish()
     }
 
     //Function to load relevant information to profile

@@ -10,7 +10,7 @@ import android.widget.TextView
 
 class ConversationsAdapter(
     context: Context,
-    activeConversations: ArrayList<Conversation>,
+    activeConversations: List<Conversation>,
     var currentUser: User?
 
 ) :
