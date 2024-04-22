@@ -1,11 +1,16 @@
 package com.example.chatup
 
+import android.R
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityProfileBinding
 import com.google.gson.Gson
+
 
 //Activity to display you profile, update with a profile picture and information about you.
 class ProfileActivity : AppCompatActivity() {
@@ -20,9 +25,12 @@ class ProfileActivity : AppCompatActivity() {
 
         // Get data from intent
        val (userName, userPresentation) = extractUserData(intent)
-        binding.profileUsername.text = userName
-        binding.profileDescription.text = userPresentation
+        val user = getUser()
+        loadUser()
 
+        binding.btnUpdate.setOnClickListener {
+            updateUser()
+        }
         binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("receiver", userName)
@@ -35,6 +43,30 @@ class ProfileActivity : AppCompatActivity() {
             removeFriend()
         }
     }
+
+    fun loadUser()
+    {
+        val user = getUser()
+        binding.profileUsername.text = user.name
+        val  presentation = binding.profileDescription
+        presentation.setText(user.presentation)
+    }
+    override fun onResume() {
+        super.onResume()
+        loadUser()
+    }
+    private fun updateUser() {
+        var user = getUser()
+        user.presentation = binding.profileDescription.text.toString()
+        userDao.updateUser(user)
+        val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(user)
+        editor.putString("user", json)
+        editor.apply()
+    }
+
     //Function to load relevant information to profile
     fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
         return Triple(
