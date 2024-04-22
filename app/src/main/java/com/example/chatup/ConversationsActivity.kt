@@ -12,28 +12,34 @@ import kotlinx.coroutines.launch
 
 class ConversationsActivity : AppCompatActivity() {
     lateinit var binding: ActivityConversationsBinding
-    var currentUser: User? = null
-    var userDao = UserDao()
-    private lateinit var friendAdapter: ArrayAdapter<String>
-    override fun onCreate(savedInstanceState: Bundle?) {
+    lateinit var currentUser: User
+    lateinit var conversationsAdapter: ConversationsAdapter
+    lateinit var conversations: MutableList<Conversation>
 
+    var userDao = UserDao()
+    var conversationDAO = ConversationDao()
+    private lateinit var friendAdapter: ArrayAdapter<String>
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = ActivityConversationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
         //Spinner adapter
         friendAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item)
         friendAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFriends.adapter = friendAdapter
+        currentUser = intent.getSerializableExtra("user") as User
+        conversationDAO.getUserConversations(currentUser.name!!, this)
+        { conversations ->
+            this@ConversationsActivity.conversationsAdapter = ConversationsAdapter(this, conversations, currentUser)
+            binding.lvConversations.adapter = this@ConversationsActivity.conversationsAdapter
+        }
 
-
-        currentUser = intent.getSerializableExtra("user") as? User
 
         binding.btnMyProfile.setOnClickListener {
-            navigateToProfile(currentUser!!)
-
+            navigateToProfile(currentUser)
         }
 
         binding.btnSearchUser.setOnClickListener {
@@ -41,6 +47,23 @@ class ConversationsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.lvConversations.setOnItemClickListener { parent, view, position, id ->
+            val selectedConversation = conversationsAdapter.getItem(position)
+
+            selectedConversation?.let { conversation ->
+                val otherUser = conversation.users.find { user -> user.id != currentUser.id }
+
+                otherUser?.let { user ->
+                    val intent = Intent(this, ChatActivity::class.java).apply {
+//                        putExtra("name", user)
+//                        putExtra("messages", conversation.messages)
+                        putExtra("receiver",otherUser.name)
+                    }
+
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -48,6 +71,7 @@ class ConversationsActivity : AppCompatActivity() {
         // Update friendslist when returning to activity
         loadCurrentUserFriendsSpinner()
     }
+
     private fun loadCurrentUserFriendsSpinner() {
         GlobalScope.launch(Dispatchers.Main) {
             // Check if the current user is not null
@@ -56,13 +80,13 @@ class ConversationsActivity : AppCompatActivity() {
                 val friends = userDao.getAllFriendsForUser(user.id)
                 // Extract the names of the friends
                 val friendNames = friends.map { it.name }
-
                 friendAdapter.clear()
                 friendAdapter.addAll(friendNames)
                 friendAdapter.notifyDataSetChanged()
             }
         }
     }
+
     fun navigateToProfile(user: User) {
         val intent = Intent(this, ProfileActivity::class.java)
         intent.putExtra("user", user)
@@ -73,3 +97,7 @@ class ConversationsActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+
+
+

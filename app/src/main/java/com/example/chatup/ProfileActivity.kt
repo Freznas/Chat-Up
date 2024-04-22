@@ -1,10 +1,9 @@
 package com.example.chatup
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
 import com.example.chatup.databinding.ActivityProfileBinding
 import com.google.gson.Gson
 
@@ -17,31 +16,25 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-//        val userName = intent.getStringExtra("name")
-//        val userPresentation = intent.getStringExtra("presentation")
-        //Way to handle picture
-//        val userProfilePicture = intent.getStringExtra("profilepicture")
+        val userProfilePicture = intent.getStringExtra("profilepicture")
 
         // Get data from intent
        val (userName, userPresentation) = extractUserData(intent)
         binding.profileUsername.text = userName
         binding.profileDescription.text = userPresentation
 
-
-        binding.button3.setOnClickListener {
+        binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("reciver", userName)
+            intent.putExtra("receiver", userName)
             startActivity(intent)
         }
-        binding.button.setOnClickListener {
+        binding.btnAddFriend.setOnClickListener {
             addFriend()
         }
-        binding.button4.setOnClickListener {
+        binding.btnRemove.setOnClickListener {
             removeFriend()
         }
     }
-
     //Function to load relevant information to profile
     fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
         return Triple(
@@ -50,7 +43,6 @@ class ProfileActivity : AppCompatActivity() {
             intent.getStringExtra("profilepicture")
         )
     }
-
     private fun addFriend() {
         val currentUser = getUser()
         val friendUser = intent.getSerializableExtra("frienduser") as? User
@@ -70,8 +62,6 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun removeFriend() {
         val currentUser = getUser()
         val friendUser = intent.getSerializableExtra("frienduser") as? User
@@ -88,7 +78,6 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
         }
     }
-
     fun getUser(): User
     {
         val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
