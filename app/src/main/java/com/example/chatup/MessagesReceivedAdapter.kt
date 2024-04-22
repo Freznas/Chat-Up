@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+
 
 class MessagesReceivedAdapter(context: Context, private val messages: List<String>) :
     ArrayAdapter<String>(context, 0, messages) {
@@ -25,8 +24,7 @@ class MessagesReceivedAdapter(context: Context, private val messages: List<Strin
             itemView = LayoutInflater.from(context)
                 .inflate(R.layout.listview_received_messages, parent, false)
         }
-//        val messageTextView: TextView = itemView!!.findViewById(R.id.tv_receieved_message)
-//        messageTextView.text = getItem(position)
+
         return itemView!!
 
 

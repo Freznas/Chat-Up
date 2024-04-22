@@ -16,25 +16,16 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val userProfilePicture = intent.getStringExtra("profilepicture")
-//        val selectedUser = intent.getSerializableExtra("selectedUser") as User
-
-
-//        val userName = intent.getStringExtra("name")
-//        val userPresentation = intent.getStringExtra("presentation")
-        //Way to handle picture
-//        val userProfilePicture = intent.getStringExtra("profilepicture")
 
         // Get data from intent
        val (userName, userPresentation) = extractUserData(intent)
         binding.profileUsername.text = userName
         binding.profileDescription.text = userPresentation
 
-
         binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("reciver", userName)
+            intent.putExtra("receiver", userName)
             startActivity(intent)
         }
         binding.btnAddFriend.setOnClickListener {
@@ -44,7 +35,6 @@ class ProfileActivity : AppCompatActivity() {
             removeFriend()
         }
     }
-
     //Function to load relevant information to profile
     fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
         return Triple(
@@ -53,7 +43,6 @@ class ProfileActivity : AppCompatActivity() {
             intent.getStringExtra("profilepicture")
         )
     }
-
     private fun addFriend() {
         val currentUser = getUser()
         val friendUser = intent.getSerializableExtra("frienduser") as? User
@@ -73,8 +62,6 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun removeFriend() {
         val currentUser = getUser()
         val friendUser = intent.getSerializableExtra("frienduser") as? User
@@ -91,7 +78,6 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
         }
     }
-
     fun getUser(): User
     {
         val prefs = getSharedPreferences("com.example.com.example.pong_extreme.prefs", MODE_PRIVATE)
