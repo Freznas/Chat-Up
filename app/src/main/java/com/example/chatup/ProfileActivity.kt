@@ -3,7 +3,9 @@ package com.example.chatup
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.core.view.isGone
 import com.example.chatup.databinding.ActivityProfileBinding
 import com.google.gson.Gson
 
@@ -11,13 +13,21 @@ import com.google.gson.Gson
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
     var userDao = UserDao()
+    lateinit var currentUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userProfilePicture = intent.getStringExtra("profilepicture")
 
+        currentUser = getUser()
+
+        val profileUserId = intent.getStringExtra("userId")
+
+        //If you are looking at your own profile
+        if (profileUserId == currentUser.id) {
+            hideAllButtons()
+        }
         // Get data from intent
        val (userName, userPresentation) = extractUserData(intent)
         binding.profileUsername.text = userName
@@ -35,6 +45,13 @@ class ProfileActivity : AppCompatActivity() {
             removeFriend()
         }
     }
+
+    private fun hideAllButtons() {
+        binding.btnAddFriend.visibility = View.GONE
+        binding.btnRemove.visibility = View.GONE
+        binding.btnChatUp.visibility = View.GONE
+    }
+
     //Function to load relevant information to profile
     fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
         return Triple(
