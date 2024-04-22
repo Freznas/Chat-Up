@@ -33,6 +33,7 @@ class SearchUserActivity : AppCompatActivity() {
         binding.lvSearchUser.setOnItemClickListener { _, _, position, _ ->
             val selectedUsername = adapter.getItem(position)
             val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("sourceActivity", "SearchUserActivity")
             intent.putExtra("frienduser", selectedUsername)
             intent.putExtra("friendsid", selectedUsername?.id)
             intent.putExtra("name", selectedUsername?.name)
