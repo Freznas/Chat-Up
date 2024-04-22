@@ -1,9 +1,8 @@
 package com.example.chatup
 
-import android.content.Intent
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.tasks.await
 import java.net.URL
 
 class UserDao {
@@ -13,6 +12,7 @@ class UserDao {
     val KEY_EMAIL = "email"
     val KEY_PRESENTATION = "presentation"
     val KEY_PROFILEPICTURE = "profilepicture"
+    val KEY_FRIENDS = "friends"
     fun addUser(user: User, callback: (Boolean) -> Unit)
     {
         val usersCollection = FirebaseFirestore.getInstance().collection("users")
@@ -39,6 +39,7 @@ class UserDao {
                     dataToStore[KEY_PRESENTATION] = user.presentation as Any
                     dataToStore[KEY_PROFILEPICTURE] = user.profilePicture as Any
                     dataToStore[KEY_EMAIL] = user.email as Any
+                    dataToStore[KEY_FRIENDS] = user.friends as Any
 
                     FirebaseFirestore
                         .getInstance()
@@ -60,6 +61,7 @@ class UserDao {
                 Log.e("ERROR", "Error checking username availability", exception)
                 callback(false)
             }
+
     }
     fun updateUser(user: User)
     {
@@ -113,7 +115,7 @@ class UserDao {
             }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
     }
 //    Function to search for users
-fun getUserByUserName(username: String, callback: (User) -> Unit) {
+    fun getUserByUserName(username: String, callback: (User) -> Unit) {
     FirebaseFirestore
         .getInstance()
         .collection("users")
@@ -138,6 +140,7 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
         }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore")
         callback(User("", "","",""))}
 }
+
     fun searchUsers(query:String,callback:(List<User>)->Unit){
         val users = mutableListOf<User>()
         FirebaseFirestore.getInstance()
@@ -186,4 +189,121 @@ fun getUserByUserName(username: String, callback: (User) -> Unit) {
                 Log.e("Error"," Query failed", exception)
             }
     }
+
+    fun addFriend(currentUser: User?, friendUser: User?, callback: (Boolean) -> Unit) {
+        if (currentUser == null || friendUser == null) {
+            callback(false)
+            return
+        }
+        val currentUserId = currentUser.id
+        val friendId = friendUser.id
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
+
+        // Get the current users document from Firestore
+        userRef.get()
+            .addOnSuccessListener { documentSnapshot ->
+                val user = documentSnapshot.toObject(User::class.java)
+                if (user != null) {
+                    if (!user.friends.contains(friendId)) {
+                        // Add the friends ID to the current users friends list
+                        user.friends.add(friendId)
+                        // Update the friends field in Firestore with the updated friends list
+                        userRef.update("friends", user.friends)
+                            .addOnSuccessListener {
+                                callback(true)
+                            }
+                            .addOnFailureListener { e ->
+                                callback(false)
+                            }
+                    } else {
+                        // Friend already exists in the list
+                        callback(false)
+                    }
+                } else {
+                    callback(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                callback(false)
+            }
+    }
+
+
+    fun removeFriend(currentUser: User?, friendUser: User?, callback: (Boolean) -> Unit) {
+        if (currentUser == null || friendUser == null) {
+            callback(false)
+            return
+        }
+        val currentUserId = currentUser.id
+        val friendId = friendUser.id
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
+
+        // Get the current users document from Firestore
+        userRef.get().addOnSuccessListener { documentSnapshot ->
+            val user = documentSnapshot.toObject(User::class.java)
+            if (user != null) {
+                // Check if friend exists in the current users friends list
+                if (user.friends.contains(friendId)) {
+                    // Remove the friends ID from the current users friends list
+                    user.friends.remove(friendId)
+                    // Update the friends field in Firestore with the updated friends list
+                    userRef.update("friends", user.friends)
+                        .addOnSuccessListener {
+                            callback(true)
+                        }
+                        .addOnFailureListener { e ->
+                            callback(false)
+                        }
+                } else {
+
+                    callback(false)
+                }
+            } else {
+                callback(false)
+            }
+        }.addOnFailureListener { e ->
+            callback(false)
+        }
+    }
+
+    //Suspend because of coroutine operation
+    suspend fun getAllFriendsForUser(userId: String): List<User> {
+        // Initialize a mutable list to hold the user's friends
+        val friends = mutableListOf<User>()
+        try {
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+            val snapshot = userRef.get().await()
+            // Check if the user document exists
+            if (snapshot.exists()) {
+                val user = snapshot.toObject(User::class.java)
+                // Iterate through each friend ID in the user's friends list
+                user?.friends?.forEach { friendId ->
+                    // Get a reference to the Firestore document for the friend
+                    val friendSnapshot = FirebaseFirestore.getInstance().collection("users").document(friendId).get().await()
+                    // Parse the friend object from the snapshot
+                    val friend = friendSnapshot.toObject(User::class.java)
+                    // Add the friend to the list of friends
+                    friend?.let { friends.add(it) }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("Failed", "Failed to fetch all friends for user")
+        }
+
+        // Return the list of friends
+        return friends
+    }
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
