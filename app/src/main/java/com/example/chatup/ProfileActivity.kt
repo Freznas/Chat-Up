@@ -13,17 +13,19 @@ import com.google.gson.Gson
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
     var userDao = UserDao()
+    lateinit var currentUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userProfilePicture = intent.getStringExtra("profilepicture")
 
-        val sourceActivity = intent.getStringExtra("sourceActivity")
+        currentUser = getUser()
+
+        val profileUserId = intent.getStringExtra("userId")
 
         //If you are looking at your own profile
-        if (sourceActivity == "ConversationsActivity") {
+        if (profileUserId == currentUser.id) {
             hideAllButtons()
         }
         // Get data from intent
