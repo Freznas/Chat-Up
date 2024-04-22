@@ -2,6 +2,7 @@ package com.example.chatup
 // Activity to Display the active Chat between two or more users.
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityChatBinding
@@ -20,7 +21,24 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-           fetchMessages()
+        val docref = firestoreDB.collection("conversations")
+
+        docref.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+                Log.d(TAG, "Current data: ${snapshot.documents}")
+                println("${snapshot.documents}")
+                fetchMessages()
+
+            } else {
+                Log.d(TAG, "Current data: null")
+            }
+        }
+//          fetchMessages()
            binding.btnSend.setOnClickListener {
            val message = binding.etChatMessage.text.toString()
            sendMessage( message)
@@ -59,7 +77,6 @@ class ChatActivity : AppCompatActivity() {
     private fun fetchMessages() {
         val user = getUser()
         var reciever = intent.getStringExtra("reciver") as String
-
         conversationDao.getConversation(user.name!!,reciever, this){ conversation->
             conversationDao.getMessages(conversation, this)
             }
@@ -69,11 +86,14 @@ class ChatActivity : AppCompatActivity() {
         if(user !=null) {
             val sentAdapter = MessagesSentAdapter(this, results, user.name!!)
             binding.lvChatSent.adapter = sentAdapter
-        }
+            binding.lvChatSent.post {
+                binding.lvChatSent.setSelection(binding.lvChatSent.adapter.count - 1)
+            }
+             }
     }
     fun getUser(): User
     {
-        val prefs = getSharedPreferences("com.example.chatup.prefs", MODE_PRIVATE)
+        val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
         val json = prefs.getString("user", "")
         val gson = Gson()
         val user = gson.fromJson(json, User::class.java)
