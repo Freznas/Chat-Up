@@ -14,7 +14,6 @@ class SearchUserActivity : AppCompatActivity() {
 //    Declaring variables
     lateinit var binding: ActivitySearchUserBinding
     lateinit var searchView: SearchView
-    lateinit var listView: ListView
     lateinit var userDao: UserDao
     lateinit var adapter: SearchUserAdapter
 
@@ -28,9 +27,8 @@ class SearchUserActivity : AppCompatActivity() {
 
         searchView = findViewById(R.id.sv_search_user)
 
-
         adapter = SearchUserAdapter(this, ArrayList())
-        listView.adapter = adapter
+        binding.lvSearchUser.adapter = adapter
 
         binding.lvSearchUser.setOnItemClickListener { _, _, position, _ ->
             val selectedUsername = adapter.getItem(position)

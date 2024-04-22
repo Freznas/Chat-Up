@@ -67,13 +67,19 @@ class ConversationDao {
                             users = mapUsersToArrayList(dbusers)
                         }
                         if(users.find{ it.name == user1}!=null){
-                            var dbConversations = document
+//                            var dbConversations = document
                             val id = document.getString(KEY_ID)
-                            val messages = document.get(KEY_MESSAGES) as ArrayList<Message>
-                            val users = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
-                            var user = ArrayList<User>()
-                            user = mapUsersToArrayList(users)
-                            activeConversations.add(Conversation(id!!,messages,user))
+                            val dbMessages = document.get(KEY_MESSAGES)  as ArrayList<HashMap<String, Any>>
+                            if (id != null && dbMessages != null) {
+//                                var user = ArrayList<User>()
+//                                user = users
+//                                activeConversations.add(Conversation(id!!,messages,user))
+//                                val userList = mapUsersToArrayList(dbusers)
+                                var messages = mapMessagesToArrayList(dbMessages)
+                                activeConversations.add(Conversation(id, messages, users))
+                            }
+//                            val users = document.get(KEY_USERS) as ArrayList<HashMap<String, Any>>
+
 
                         }
                     }
