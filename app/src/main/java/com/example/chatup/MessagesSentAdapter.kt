@@ -8,17 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.chatup.databinding.ActivityChatBinding.inflate
-
 
 class MessagesSentAdapter(context: Context,private  val messages: List<Message>,var user: String) :
     ArrayAdapter<Message>(context, 0, messages) {
     private val USER_VIEW_TYPE = 0
     private val OTHER_VIEW_TYPE = 1
-    override fun getViewTypeCount(): Int {
-        return 2
-    }
+
     override fun getItemViewType(position: Int): Int {
         val item = messages[position]
         return if (item.sender == user) {

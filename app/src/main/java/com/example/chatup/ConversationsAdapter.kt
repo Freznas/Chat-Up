@@ -32,10 +32,16 @@ class ConversationsAdapter(
         val textviewUsername = viewHolder.textviewUsername
 
         val conversation = getItem(position)
-//        val textviewUsername = convertView!!.findViewById<TextView>(R.id.tv_username)
 
-        val result = conversation?.users?.find { it.name!= currentUser?.name }
-        val user = conversation?.users?.get(position)
+
+        val result = conversation?.users?.find { it.name != currentUser?.name }
+
+
+        val user = if (position < conversation?.users?.size ?: 0) {
+            conversation?.users?.get(position)
+        } else {
+            null
+        }
 
 
         textviewUsername.text = result?.name

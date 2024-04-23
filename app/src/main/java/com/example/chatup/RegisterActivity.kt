@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.chatup.databinding.ActivityRegisterBinding
-import java.util.Locale
+
 import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {

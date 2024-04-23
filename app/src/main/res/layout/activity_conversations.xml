@@ -11,12 +11,11 @@
         android:id="@+id/tv_conversations_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/conversation_view_header"
+        android:layout_marginTop="@dimen/conversations_view_header_margintop"
+        android:text="@string/conversations_view_header"
         android:textColor="@color/black"
         android:textSize="@dimen/font_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -26,11 +25,10 @@
     <ListView
         android:id="@+id/lv_conversations"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginTop="140dp"
-        android:paddingHorizontal="50dp"
+        android:layout_height="@dimen/conversations_view_lv_height"
+        android:paddingHorizontal="@dimen/conversations_view_lv_width"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -41,17 +39,17 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lv_conversation">
+        app:layout_constraintTop_toBottomOf="@+id/lv_conversations">
 
         <Button
             android:id="@+id/btn_search_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_design_blue"
-            android:text="@string/btn_search_user_tv"
+            android:text="@string/conversations_view_btn_search_user_tv"
             android:textColor="@color/white"
             android:layout_weight="1"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="@dimen/conversations_view_btnsearch_marginhori"
             />
 
         <Button
@@ -59,10 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_design_blue"
-            android:text="@string/btn_my_profile_tv"
+            android:text="@string/conversations_view_btn_my_profile"
             android:textColor="@color/white"
             android:layout_weight="1"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="@dimen/conversations_view_btnprofile_marginhoriz"
             />
 
 
@@ -71,11 +69,11 @@
     <Spinner
         android:id="@+id/spinner_friends"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="11dp"
-        app:layout_constraintBottom_toTopOf="@+id/lv_conversation"
+        android:layout_height="@dimen/conversations_view_spinner_height"
+        android:layout_marginHorizontal="@dimen/conversations_view_spinner_marginhori"
+        android:layout_marginBottom="@dimen/conversations_view_spinner_marginbott"
+        app:layout_constraintBottom_toTopOf="@+id/lv_conversations"
         app:layout_constraintTop_toBottomOf="@+id/tv_conversations_header"
-        tools:layout_editor_absoluteX="16dp" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

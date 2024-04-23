@@ -9,12 +9,12 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/search_result_cardview"
-        android:layout_width="400dp"
-        android:layout_height="78dp"
+        android:layout_width="@dimen/lv_search_cv_width"
+        android:layout_height="@dimen/lv_search_cv_height"
 
 
-        app:cardCornerRadius="15dp"
-        app:cardElevation="5dp"
+        app:cardCornerRadius="@dimen/lv_search_cv_cornerradius"
+        app:cardElevation="@dimen/lv_search_cv_elevation"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,10 +25,10 @@
 
         <ImageView
             android:id="@+id/search_result_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"
+            android:layout_width="@dimen/lv_search_cv_iv_width"
+            android:layout_height="@dimen/lv_search_cv_iv_height"
+            android:layout_marginTop="@dimen/lv_search_cv_iv_margintop"
+            android:layout_marginStart="@dimen/lv_search_cv_iv_marginstart"
             android:contentDescription="@string/content_description_image_listview_chat"
             android:src="@drawable/logony" />
 
@@ -36,11 +36,11 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/Search_result_text"
+            android:layout_marginStart="@dimen/lv_search_cv_tv_marginstart"
+            android:layout_marginTop="@dimen/lv_search_cv_tv_margintop"
+            android:text="@string/conversations_view_Search_result_text"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="@dimen/font_large" />
 
 
     </androidx.cardview.widget.CardView>

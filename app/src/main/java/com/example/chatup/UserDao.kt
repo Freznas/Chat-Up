@@ -91,34 +91,7 @@ class UserDao {
             .addOnSuccessListener { log -> Log.w("SUCCSESS", "$user deleted") }
             .addOnFailureListener { log -> Log.e("ERROR", "Failed to delete user in firestore") }
     }
-    fun getAllUsers(activity: MaxTestActivity){
-        val users = ArrayList<User>()
 
-        FirebaseFirestore
-            .getInstance()
-            .collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-
-                    val id = document.getString(KEY_ID)
-                    val name = document.getString(KEY_NAME)
-                    val password = document.getString(KEY_PASSWORD)
-                    val email = document.getString(KEY_EMAIL)
-                    val presentation = document.getString(KEY_PRESENTATION)
-                    val profilePicture = document.getString(KEY_PROFILEPICTURE)
-
-                    val user = User(id!!, name, password, email)
-                    user.presentation = presentation
-
-                    user.profilePicture = URL(profilePicture)
-
-                    users.add(user)
-                }
-                Log.i("SUCCSESS", " FETCHED USERS FROM FIRESTORE")
-                activity.showUsers(users)
-            }.addOnFailureListener { log -> Log.e("ERROR", "Failed to fetch USERS from firestore") }
-    }
 //    Function to search for users
     fun getUserByUserName(username: String, callback: (User) -> Unit) {
     FirebaseFirestore

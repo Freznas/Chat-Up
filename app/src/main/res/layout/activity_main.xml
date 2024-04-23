@@ -10,8 +10,8 @@
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/logo_height"
-        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_height="@dimen/main_view_logo_height"
+        android:layout_marginTop="@dimen/main_view_logo_margin_top"
         android:src="@drawable/logony"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         android:id="@+id/iv_slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_marginTop="@dimen/main_view_logo_margin_top"
         android:src="@drawable/slogan"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -32,10 +32,8 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_slogan"
-        app:layout_constraintVertical_bias="0.32"
         >
 
         <Button
@@ -44,10 +42,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_design_blue"
-            android:text="@string/btn_signin_text"
+            android:text="@string/main_view_btn_signin_text"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_margin="@dimen/btn_margin"
+            android:layout_margin="@dimen/main_view_btn_margin"
             />
 
         <Button
@@ -56,22 +54,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_design_blue"
-            android:text="@string/btn_register_text"
+            android:text="@string/main_view_btn_register_text"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_margin="@dimen/btn_margin"
+            android:layout_margin="@dimen/main_view_btn_margin"
             />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout_signin"
-        android:layout_width="@dimen/ll_width_signin"
+        android:layout_width="@dimen/main_view_linear_width_signin"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.553">
@@ -80,22 +77,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|top"
-            android:text="@string/tv_signin_title"
+            android:text="@string/main_view_tv_signin_title"
             android:textColor="@color/black"
             android:textSize="@dimen/font_large" />
 
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/et_signin_height"
-            android:hint="@string/et_signin_username"
+            android:layout_height="@dimen/register_view_et_signin_height"
+            android:hint="@string/main_view_et_signin_username"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/et_signin_height"
-            android:hint="@string/et_signin_password"
+            android:layout_height="@dimen/register_view_et_signin_height"
+            android:hint="@string/main_view_et_signin_password"
             android:inputType="textPassword" />
 
 
