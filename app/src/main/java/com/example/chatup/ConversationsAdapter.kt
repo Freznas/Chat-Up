@@ -10,12 +10,14 @@ import android.widget.TextView
 
 class ConversationsAdapter(
     context: Context,
-    activeConversations: MutableList<Conversation>,
+    activeConversations: List<Conversation>,
     var currentUser: User?
 
 ) :
     ArrayAdapter<Conversation>(context, 0, activeConversations) {
-
+    override fun getViewTypeCount(): Int {
+        return 1
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView
@@ -30,12 +32,9 @@ class ConversationsAdapter(
             viewHolder = itemView.tag as ViewHolder
         }
         val textviewUsername = viewHolder.textviewUsername
-
         val conversation = getItem(position)
 
-
         val result = conversation?.users?.find { it.name != currentUser?.name }
-
 
         val user = if (position < conversation?.users?.size ?: 0) {
             conversation?.users?.get(position)

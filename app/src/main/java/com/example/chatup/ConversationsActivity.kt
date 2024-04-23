@@ -3,7 +3,10 @@ package com.example.chatup
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityConversationsBinding
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +17,10 @@ class ConversationsActivity : AppCompatActivity() {
     lateinit var binding: ActivityConversationsBinding
     lateinit var currentUser: User
     lateinit var conversationsAdapter: ConversationsAdapter
-
-
     var userDao = UserDao()
     var conversationDAO = ConversationDao()
     private lateinit var friendAdapter: ArrayAdapter<String>
+    private var isSpinnerInitialized = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +32,8 @@ class ConversationsActivity : AppCompatActivity() {
         friendAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item)
         friendAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFriends.adapter = friendAdapter
+
+
         currentUser = intent.getSerializableExtra("user") as User
         conversationDAO.getUserConversations(currentUser.name!!)
         { conversations ->
@@ -64,7 +68,43 @@ class ConversationsActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.spinnerFriends.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (!isSpinnerInitialized) {
+                        isSpinnerInitialized = true
+                    } else {
+                        val selectedFriendName = friendAdapter.getItem(position)
+
+                        selectedFriendName?.let { friendName ->
+                            userDao.getUserByUserName(friendName) { user ->
+                                if (user.id.isNotEmpty()) {
+                                    navigateToProfile(user)
+                                } else {
+                                    Toast.makeText(
+                                        this@ConversationsActivity,
+                                        "User not found",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+
+                }
+            }
+
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -81,11 +121,13 @@ class ConversationsActivity : AppCompatActivity() {
                 // Extract the names of the friends
                 val friendNames = friends.map { it.name }
                 friendAdapter.clear()
+                friendAdapter.add("Select your friend")
                 friendAdapter.addAll(friendNames)
                 friendAdapter.notifyDataSetChanged()
             }
         }
     }
+
 
     fun navigateToProfile(user: User) {
         val intent = Intent(this, ProfileActivity::class.java)
@@ -96,6 +138,8 @@ class ConversationsActivity : AppCompatActivity() {
         intent.putExtra("profilepicture", user.profilePicture)
         startActivity(intent)
     }
+
+
 }
 
 

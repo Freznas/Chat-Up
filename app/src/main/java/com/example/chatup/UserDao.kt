@@ -71,7 +71,10 @@ class UserDao {
         val userRef = FirebaseFirestore.getInstance().collection("users").document(user.id)
         val updates: Map<String, Any>  = hashMapOf(
             "name" to user.name as Any,
-            "password" to user.password as Any
+            "password" to user.password as Any,
+            "email" to user.email as Any,
+            "presentation" to user.presentation as Any
+
         )
         userRef.update( updates)
            .addOnSuccessListener {
@@ -285,6 +288,8 @@ class UserDao {
         // Return the list of friends
         return friends
     }
+
+
 
 }
 
