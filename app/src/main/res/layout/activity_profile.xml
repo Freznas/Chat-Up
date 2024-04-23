@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_username" />
 
-    <TextView
+    <EditText
         android:id="@+id/profile_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,16 +82,26 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_block"
+        android:id="@+id/btn_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="112dp"
         android:layout_marginBottom="152dp"
         android:background="@drawable/button_design_blue"
-        android:text="block user"
+        android:text="Update"
         android:textColor="@color/button_text_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/button_design_blue"
+        android:text="Delete"
+        android:textColor="@color/button_text_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
