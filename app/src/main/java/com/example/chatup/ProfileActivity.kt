@@ -8,6 +8,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
+import android.widget.Toast
+import androidx.core.view.isGone
+
 import com.example.chatup.databinding.ActivityProfileBinding
 import com.google.gson.Gson
 
@@ -16,13 +20,24 @@ import com.google.gson.Gson
 class ProfileActivity : AppCompatActivity() {
     lateinit var binding: ActivityProfileBinding
     var userDao = UserDao()
+    lateinit var currentUser: User
+    lateinit var soundManager: SoundManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userProfilePicture = intent.getStringExtra("profilepicture")
+        soundManager = SoundManager(this)
 
+
+        currentUser = getUser()
+
+        val profileUserId = intent.getStringExtra("userId")
+
+        //If you are looking at your own profile
+        if (profileUserId == currentUser.id) {
+            hideAllButtons()
+        }
         // Get data from intent
        val (userName, userPresentation) = extractUserData(intent)
         val user = getUser()
@@ -37,6 +52,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnChatUp.setOnClickListener {
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("receiver", userName)
+            soundManager.chatUpSound()
             startActivity(intent)
         }
         binding.btnAddFriend.setOnClickListener {
@@ -46,6 +62,7 @@ class ProfileActivity : AppCompatActivity() {
             removeFriend()
         }
     }
+
 
     fun loadUser()
     {
@@ -80,6 +97,17 @@ class ProfileActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
         finish()
+
+    override fun onDestroy() {
+        super.onDestroy()
+        soundManager.release()
+    }
+
+    private fun hideAllButtons() {
+        binding.btnAddFriend.visibility = View.GONE
+        binding.btnRemove.visibility = View.GONE
+        binding.btnChatUp.visibility = View.GONE
+
     }
 
     //Function to load relevant information to profile

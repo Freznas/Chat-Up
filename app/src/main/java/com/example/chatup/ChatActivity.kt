@@ -14,10 +14,13 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
     private val firestoreDB = FirebaseFirestore.getInstance()
     var conversationDao = ConversationDao()
+    private lateinit var soundManager: SoundManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        soundManager = SoundManager(this)
 
         val docref = firestoreDB.collection("conversations")
         docref.addSnapshotListener { snapshot, e ->
@@ -30,6 +33,7 @@ class ChatActivity : AppCompatActivity() {
                 Log.d(TAG, "Current data: ${snapshot.documents}")
                 println("${snapshot.documents}")
                 fetchMessages()
+                soundManager.messageSound()
 
             } else {
                 Log.d(TAG, "Current data: null")
@@ -44,6 +48,10 @@ class ChatActivity : AppCompatActivity() {
             sendMessage(message)
             binding.etChatMessage.text.clear()
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        soundManager.release()
     }
     private fun sendMessage(message: String) {
         var users = ArrayList<User>()
@@ -70,12 +78,14 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+
     private fun fetchMessages() {
         val user = getUser()
         var receiver = intent.getStringExtra("receiver") as String
         conversationDao.getConversation(user.name!!, receiver, this) { conversation ->
 
             conversationDao.getMessages(conversation, this)
+
         }
     }
 
@@ -86,6 +96,7 @@ class ChatActivity : AppCompatActivity() {
             binding.lvChatSent.adapter = sentAdapter
             binding.lvChatSent.post {
                 binding.lvChatSent.setSelection(binding.lvChatSent.adapter.count - 1)
+
             }
              }
     }
