@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-import android.widget.Toast
 import androidx.core.view.isGone
 
 import com.example.chatup.databinding.ActivityProfileBinding
@@ -87,8 +86,7 @@ class ProfileActivity : AppCompatActivity() {
         editor.putString("user", json)
         editor.apply()
     }
-    private fun deleteUser()
-    {
+    private fun deleteUser() {
         val user = getUser()
         userDao.deleteUser(user)
         Toast.makeText(this, "User deleted succesfully!", Toast.LENGTH_SHORT).show()
@@ -97,69 +95,74 @@ class ProfileActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
         finish()
-
-    override fun onDestroy() {
-        super.onDestroy()
-        soundManager.release()
     }
+        override fun onDestroy() {
+            super.onDestroy()
+            soundManager.release()
+        }
 
-    private fun hideAllButtons() {
-        binding.btnAddFriend.visibility = View.GONE
-        binding.btnRemove.visibility = View.GONE
-        binding.btnChatUp.visibility = View.GONE
+        private fun hideAllButtons() {
+            binding.btnAddFriend.visibility = View.GONE
+            binding.btnRemove.visibility = View.GONE
+            binding.btnChatUp.visibility = View.GONE
 
-    }
+        }
 
-    //Function to load relevant information to profile
-    fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
-        return Triple(
-            intent.getStringExtra("name"),
-            intent.getStringExtra("presentation"),
-            intent.getStringExtra("profilepicture")
-        )
-    }
-    private fun addFriend() {
-        val currentUser = getUser()
-        val friendUser = intent.getSerializableExtra("frienduser") as? User
+        //Function to load relevant information to profile
+        fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
+            return Triple(
+                intent.getStringExtra("name"),
+                intent.getStringExtra("presentation"),
+                intent.getStringExtra("profilepicture")
+            )
+        }
 
-        if (currentUser != null && friendUser != null) {
-            // Kontrollera om vän redan finns i listan
+        private fun addFriend() {
+            val currentUser = getUser()
+            val friendUser = intent.getSerializableExtra("frienduser") as? User
 
-            userDao.addFriend(currentUser, friendUser) { success ->
-                if (success) {
-                    Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Failed! Friend is already added", Toast.LENGTH_SHORT).show()
+            if (currentUser != null && friendUser != null) {
+                // Kontrollera om vän redan finns i listan
+
+                userDao.addFriend(currentUser, friendUser) { success ->
+                    if (success) {
+                        Toast.makeText(this, "Friend added", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Failed! Friend is already added", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
+            } else {
+                Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
+        }
+
+        private fun removeFriend() {
+            val currentUser = getUser()
+            val friendUser = intent.getSerializableExtra("frienduser") as? User
+
+            if (currentUser != null && friendUser != null) {
+                userDao.removeFriend(currentUser, friendUser) { success ->
+                    if (success) {
+                        Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Failed! Friend is already removed",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
+                Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        fun getUser(): User {
+            val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
+            val json = prefs.getString("user", "")
+            val gson = Gson()
+            val user = gson.fromJson(json, User::class.java)
+            return user
         }
     }
-
-    private fun removeFriend() {
-        val currentUser = getUser()
-        val friendUser = intent.getSerializableExtra("frienduser") as? User
-
-        if (currentUser != null && friendUser != null) {
-            userDao.removeFriend(currentUser, friendUser) { success ->
-                if (success) {
-                    Toast.makeText(this, "Friend removed", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Failed! Friend is already removed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        } else {
-            Toast.makeText(this, "User or friend data is missing", Toast.LENGTH_SHORT).show()
-        }
-    }
-    fun getUser(): User
-    {
-        val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
-        val json = prefs.getString("user", "")
-        val gson = Gson()
-        val user = gson.fromJson(json, User::class.java)
-        return  user
-    }
-
-}
