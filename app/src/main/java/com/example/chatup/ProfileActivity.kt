@@ -4,6 +4,7 @@ import android.R
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -36,11 +37,20 @@ class ProfileActivity : AppCompatActivity() {
         //If you are looking at your own profile
         if (profileUserId == currentUser.id) {
             hideAllButtons()
+            loadUser(profileUserId)
+        }
+        else
+        {
+            binding.profileDescription.setInputType(InputType.TYPE_NULL);
+            hideUpdateDeleteBtns()
+            val (userName, userPresentation) = extractUserData(intent)
+            binding.profileUsername.text = userName
+            val presentation = binding.profileDescription
+            presentation.setText(userPresentation)
         }
         // Get data from intent
        val (userName, userPresentation) = extractUserData(intent)
         val user = getUser()
-        loadUser()
 
         binding.btnUpdate.setOnClickListener {
             updateUser()
@@ -62,17 +72,19 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-
-    fun loadUser()
+    fun loadUser(profileid: String?)
     {
-        val user = getUser()
-        binding.profileUsername.text = user.name
-        val  presentation = binding.profileDescription
-        presentation.setText(user.presentation)
+        if(profileid == currentUser.id) {
+            val user = getUser()
+            binding.profileUsername.text = user.name
+            val presentation = binding.profileDescription
+            presentation.setText(user.presentation)
+        }
     }
     override fun onResume() {
         super.onResume()
-        loadUser()
+        val profileUserId = intent.getStringExtra("userId")
+        loadUser(profileUserId)
     }
     private fun updateUser() {
         var user = getUser()
@@ -107,7 +119,10 @@ class ProfileActivity : AppCompatActivity() {
             binding.btnChatUp.visibility = View.GONE
 
         }
-
+    private fun hideUpdateDeleteBtns() {
+        binding.btnDelete.visibility = View.GONE
+        binding.btnUpdate.visibility = View.GONE
+    }
         //Function to load relevant information to profile
         fun extractUserData(intent: Intent): Triple<String?, String?, String?> {
             return Triple(
