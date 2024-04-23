@@ -2,8 +2,6 @@ package com.example.chatup
 // Activity to Display the active Chat between two or more users.
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatup.databinding.ActivityChatBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,20 +37,24 @@ class ChatActivity : AppCompatActivity() {
                 Log.d(TAG, "Current data: null")
             }
         }
-           binding.btnSend.setOnClickListener {
-           val message = binding.etChatMessage.text.toString()
-           sendMessage( message)
-       }
+        binding.btnSend.setOnClickListener {
+            val message = binding.etChatMessage.text.toString()
+            sendMessage(message)
+        }
         binding.btnSend.setOnClickListener {
             val message = binding.etChatMessage.text.toString()
             sendMessage(message)
             binding.etChatMessage.text.clear()
         }
     }
+
+
+
     override fun onDestroy() {
         super.onDestroy()
         soundManager.release()
     }
+
     private fun sendMessage(message: String) {
         var users = ArrayList<User>()
         val user = getUser()
@@ -98,12 +100,10 @@ class ChatActivity : AppCompatActivity() {
                 binding.lvChatSent.setSelection(binding.lvChatSent.adapter.count - 1)
 
             }
-             }
+        }
     }
 
-
-    fun getUser(): User
-    {
+    fun getUser(): User {
         val prefs = getSharedPreferences("com.example.chatup", MODE_PRIVATE)
         val json = prefs.getString("user", "")
         val gson = Gson()

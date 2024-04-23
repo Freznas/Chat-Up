@@ -17,7 +17,6 @@ class ConversationsActivity : AppCompatActivity() {
     lateinit var binding: ActivityConversationsBinding
     lateinit var currentUser: User
     lateinit var conversationsAdapter: ConversationsAdapter
-    lateinit var conversations: MutableList<Conversation>
     var userDao = UserDao()
     var conversationDAO = ConversationDao()
     private lateinit var friendAdapter: ArrayAdapter<String>
@@ -36,7 +35,7 @@ class ConversationsActivity : AppCompatActivity() {
 
 
         currentUser = intent.getSerializableExtra("user") as User
-        conversationDAO.getUserConversations(currentUser.name!!, this)
+        conversationDAO.getUserConversations(currentUser.name!!)
         { conversations ->
             this@ConversationsActivity.conversationsAdapter =
                 ConversationsAdapter(this, conversations, currentUser)
@@ -61,8 +60,7 @@ class ConversationsActivity : AppCompatActivity() {
 
                 otherUser?.let { user ->
                     val intent = Intent(this, ChatActivity::class.java).apply {
-//                        putExtra("name", user)
-//                        putExtra("messages", conversation.messages)
+
                         putExtra("receiver", otherUser.name)
                     }
 

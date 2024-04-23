@@ -25,7 +25,7 @@ class SearchUserAdapter(context: Context, users:List<User>):ArrayAdapter<User>(c
     fun addAll(users: List<User>) {
         for(User in users){
             add(User)
-//            clear()
+
 
         }
 

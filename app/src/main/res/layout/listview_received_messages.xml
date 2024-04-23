@@ -10,7 +10,7 @@
         android:id="@+id/cv_received_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="@dimen/lv_received_cv_cornerradius"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,21 +23,21 @@
 
         <ImageView
             android:id="@+id/iv_receiver_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="5dp"
+            android:layout_width="@dimen/lv_received_cv_iv_width"
+            android:layout_height="@dimen/lv_received_cv_iv_height"
+            android:layout_marginTop="@dimen/lv_received_cv_iv_margintop"
+            android:layout_marginStart="@dimen/lv_received_cv_iv_marginstart"
             android:contentDescription="@string/content_description_image_listview_chat"
             android:src="@drawable/logony" />
 
         <TextView
             android:id="@+id/tv_message"
-            android:layout_width="172dp"
+            android:layout_width="@dimen/lv_conversations_cv_tv_width"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="@dimen/lv_received_cv_tv_marginstart"
             android:text="@string/chat_message_received"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_medium" />
 
 
     </androidx.cardview.widget.CardView>

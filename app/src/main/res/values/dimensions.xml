@@ -2,7 +2,7 @@
 <resources>
 
     <dimen name="font_large">25sp</dimen>
-    <dimen name="font_medium">20sp</dimen>
+    <dimen name="font_medium">18sp</dimen>
     <dimen name="font_small">15sp</dimen>
     <dimen name="font_header">35sp</dimen>
 </resources>

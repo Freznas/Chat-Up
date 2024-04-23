@@ -11,10 +11,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_conversations"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="5dp"
+        android:layout_height="@dimen/conversations_view_lv_cv_height"
+        android:layout_margin="@dimen/conversations_view_lv_cv_margin"
+        app:cardCornerRadius="@dimen/conversations_view_lv_cv_cornerradius"
+        app:cardElevation="@dimen/conversations_view_lv_cv_elevation"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,18 +39,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="start|center"
-                android:layout_marginStart="10dp"
-                android:text="@string/Search_result_text"
+                android:layout_marginStart="@dimen/conversations_view_lv_tv_marginstart"
+                android:text="@string/conversations_view_Search_result_text"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/iv_new_chat_alert"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/conversations_view_lv_iv_width"
+                android:layout_height="@dimen/conversations_view_lv_iv_height"
                 android:layout_gravity="center|end"
-                android:layout_marginEnd="10dp"
-                android:contentDescription="@string/contentdescription_newchat_alert"
+                android:layout_marginEnd="@dimen/lv_conversations_iv_marginend"
                 android:src="@drawable/newchat" />
 
         </LinearLayout>
