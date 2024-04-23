@@ -33,7 +33,7 @@ class ConversationsActivity : AppCompatActivity() {
         friendAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerFriends.adapter = friendAdapter
 
-
+        loadCurrentUserFriendsSpinner()
         currentUser = intent.getSerializableExtra("user") as User
         conversationDAO.getUserConversations(currentUser.name!!)
         { conversations ->
