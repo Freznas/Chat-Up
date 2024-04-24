@@ -1,22 +1,51 @@
 <resources>
     <string name="app_name">Chat Up</string>
-    <string name="reg_view_enter_name">Enter Username</string>
-    <string name="reg_view_password1">Enter password</string>
-    <string name="reg_view_password2">Enter password again</string>
-    <string name="reg_view_register_user">Register user</string>
-    <string name="reg_view_header">Register User</string>
+
+    <string name="register_view_enter_name">Enter Username</string>
+    <string name="register_view_password1">Enter password</string>
+    <string name="register_view_password2">Enter password again</string>
+    <string name="register_view_btn_register">Register user</string>
+    <string name="register_view_header">Register User</string>
+    <string name="register_view_email">Email</string>
+
     <string name="login_view_header">Sign in</string>
     <string name="login_view_password">Enter Password</string>
     <string name="login_view_username">Enter Username</string>
     <string name="login_view_btn_signin">Sign in</string>
-    <string name="btn_return">return</string>
-    <string name="conversation_view_header">Conversations</string>
-    <string name="chat_view_message">Compose your message</string>
-    <string name="chat_view_btn_send">Skicka</string>
+
     <string name="search_view_header">Search for user</string>
-    <string name="chat_view_active_conversation">conversation Name</string>
+    <string name="search_view_sv_queryhint">Find user</string>
+
+    <string name="conversations_view_header">Conversations</string>
+    <string name="conversations_view_btn_search_user_tv">Find User</string>
+    <string name="conversations_view_Search_result_text">Username</string>
+    <string name="conversations_view_btn_my_profile">My Profile</string>
+    <string name="conversations_view_contentdescription_newchat_alert">new chat</string>
+
+    <string name="chat_view_et_message">Compose your message</string>
+    <string name="chat_view_btn_send">Skicka</string>
+    <string name="chat_view_active_conversation">Chat Name</string>
+    <string name="chat_message_received">Textmessage received</string>
+    <string name="chat_message_sent">Textmessage sent</string>
+
+    <string name="placeholder_text_listview_chat">Description</string>
+    <string name="placeholder_title_listview_chat">Title</string>
+    <string name="content_description_image_listview_chat">Profile picture</string>
+
     <string name="main_view_register_user">Register new user</string>
     <string name="main_view_login_user">Login with existing user</string>
     <string name="main_view_header">You better Chat up!</string>
+    <string name="main_view_btn_signin_text">Sign In</string>
+    <string name="main_view_btn_register_text">Register</string>
+    <string name="main_view_tv_signin_title">Sign In</string>
+    <string name="main_view_et_signin_username">Username</string>
+    <string name="main_view_et_signin_password">Password</string>
+
+    <string name="profile_view_profile_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer a turpis id eros iaculis facilisis ut vitae leo. Nunc imperdiet gravida dolor a cursus. Phasellus sed quam et lacus ornare cursus. Duis vitae mi vestibulum, laoreet lacus id, gravida nibh. In efficitur tellus ut neque finibus</string>
+    <string name="profile_view_header">Username</string>
+    <string name="profile_view_btn_chatup">Chat up</string>
+    <string name="profile_view_btn_addfriend">Add friend</string>
+    <string name="profile_view_remove">Remove</string>
+
 
 </resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_view_logo_margin_top">4dp</dimen>
+    <dimen name="main_view_logo_height">200dp</dimen>
+    <dimen name="main_view_linear_width_signin">300dp</dimen>
+    <dimen name="main_view_btn_margin">10dp</dimen>
+
+    <dimen name="chat_view_margintop">10dp</dimen>
+    <dimen name="chat_view_listview_height">420dp</dimen>
+    <dimen name="chat_view_lv_width">368dp</dimen>
+    <dimen name="chat_view_lv_margintop">20dp</dimen>
+    <dimen name="chat_view_dividerheight">5dp</dimen>
+    <dimen name="chat_view_chat_linear_padding">8dp</dimen>
+    <dimen name="chat_view_et_width">0dp</dimen>
+    <dimen name="chat_view_et_height">56dp</dimen>
+
+    <dimen name="conversations_view_header_margintop">24dp</dimen>
+    <dimen name="conversations_view_lv_height">450dp</dimen>
+    <dimen name="conversations_view_lv_width">50dp</dimen>
+    <dimen name="conversations_view_btnsearch_marginhori">10dp</dimen>
+    <dimen name="conversations_view_btnprofile_marginhoriz">10dp</dimen>
+    <dimen name="conversations_view_spinner_height">48dp</dimen>
+    <dimen name="conversations_view_spinner_marginhori">10dp</dimen>
+    <dimen name="conversations_view_spinner_marginbott">11dp</dimen>
+
+    <dimen name="profile_view_profile_header_marginstart">28dp</dimen>
+    <dimen name="profile_view_profile_header_margintop">47dp</dimen>
+    <dimen name="profile_view_profile_image_width">217dp</dimen>
+    <dimen name="profile_view_profile_image_height">160dp</dimen>
+    <dimen name="profile_view_profile_tv_description">15dp</dimen>
+    <dimen name="profile_view_profile_btn_marginbott">50dp</dimen>
+    <dimen name="profile_view_profile_btn_marginhori">20dp</dimen>
+
+    <dimen name="register_view_header_margintop">64dp</dimen>
+    <dimen name="register_view_header_marginhori">100dp</dimen>
+    <dimen name="register_view_linear_marginhori">20dp</dimen>
+    <dimen name="register_view_btn_linear_marginhori">20dp</dimen>
+    <dimen name="register_view_et_signin_height">60dp</dimen>
+
+    <dimen name="search_view_sv_marginhori">25dp</dimen>
+    <dimen name="search_view_header_margintop">32dp</dimen>
+    <dimen name="search_view_lv_width">392dp</dimen>
+    <dimen name="search_view_lv_height">507dp</dimen>
+    <dimen name="search_view_lv_margintop">8dp</dimen>
+
+    <dimen name="conversations_view_lv_cv_height">80dp</dimen>
+    <dimen name="conversations_view_lv_cv_margin">10dp</dimen>
+    <dimen name="conversations_view_lv_cv_cornerradius">15dp</dimen>
+    <dimen name="conversations_view_lv_cv_elevation">5dp</dimen>
+    <dimen name="conversations_view_lv_tv_marginstart">10dp</dimen>
+    <dimen name="conversations_view_lv_iv_width">50dp</dimen>
+    <dimen name="conversations_view_lv_iv_height">50dp</dimen>
+
+    <dimen name="lv_conversations_iv_marginend">10dp</dimen>
+
+    <dimen name="lv_received_cv_cornerradius">15dp</dimen>
+    <dimen name="lv_received_cv_iv_width">40dp</dimen>
+    <dimen name="lv_received_cv_iv_height">40dp</dimen>
+    <dimen name="lv_received_cv_iv_margintop">2dp</dimen>
+    <dimen name="lv_received_cv_iv_marginstart">5dp</dimen>
+    <dimen name="lv_conversations_cv_tv_width">172dp</dimen>
+    <dimen name="lv_received_cv_tv_marginstart">50dp</dimen>
+
+    <dimen name="lv_search_cv_width">400dp</dimen>
+    <dimen name="lv_search_cv_height">78dp</dimen>
+    <dimen name="lv_search_cv_cornerradius">15dp</dimen>
+    <dimen name="lv_search_cv_elevation">5dp</dimen>
+    <dimen name="lv_search_cv_iv_width">40dp</dimen>
+    <dimen name="lv_search_cv_iv_height">40dp</dimen>
+    <dimen name="lv_search_cv_iv_margintop">10dp</dimen>
+    <dimen name="lv_search_cv_iv_marginstart">15dp</dimen>
+    <dimen name="lv_search_cv_tv_marginstart">100dp</dimen>
+    <dimen name="lv_search_cv_tv_margintop">10dp</dimen>
+
+    <dimen name="lv_sent_cv_cornerradius">15dp</dimen>
+    <dimen name="lv_sent_cv_iv_width">40dp</dimen>
+    <dimen name="lv_sent_cv_iv_height">40dp</dimen>
+    <dimen name="lv_sent_cv_iv_marginstart">5dp</dimen>
+    <dimen name="lv_sent_cv_tv_width">172dp</dimen>
+    <dimen name="lv_sent_cv_tv_marginstart">50dp</dimen>
+    <dimen name="lv_sent_cv_tv_margintop">7dp</dimen>
+</resources>

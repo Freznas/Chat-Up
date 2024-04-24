@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_blue">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_sent_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/lv_sent_cv_cornerradius"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/iv_sender"
+            android:layout_width="@dimen/lv_sent_cv_iv_width"
+            android:layout_height="@dimen/lv_sent_cv_iv_height"
+            android:layout_marginStart="@dimen/lv_sent_cv_iv_marginstart"
+            android:contentDescription="@string/content_description_image_listview_chat"
+            android:src="@drawable/logony" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="@dimen/lv_sent_cv_tv_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lv_sent_cv_tv_marginstart"
+            android:layout_marginTop="@dimen/lv_sent_cv_tv_margintop"
+            android:text="@string/chat_message_sent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_medium" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

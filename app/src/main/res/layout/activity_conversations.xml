@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConversationsActivity"
+    android:background="@color/background_blue">
+
+    <TextView
+        android:id="@+id/tv_conversations_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/conversations_view_header_margintop"
+        android:text="@string/conversations_view_header"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+
+    <ListView
+        android:id="@+id/lv_conversations"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/conversations_view_lv_height"
+        android:paddingHorizontal="@dimen/conversations_view_lv_width"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lv_conversations">
+
+        <Button
+            android:id="@+id/btn_search_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/conversations_view_btn_search_user_tv"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/conversations_view_btnsearch_marginhori"
+            />
+
+        <Button
+            android:id="@+id/btn_my_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design_blue"
+            android:text="@string/conversations_view_btn_my_profile"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="@dimen/conversations_view_btnprofile_marginhoriz"
+            />
+
+
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner_friends"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/conversations_view_spinner_height"
+        android:layout_marginHorizontal="@dimen/conversations_view_spinner_marginhori"
+        android:layout_marginBottom="@dimen/conversations_view_spinner_marginbott"
+        app:layout_constraintBottom_toTopOf="@+id/lv_conversations"
+        app:layout_constraintTop_toBottomOf="@+id/tv_conversations_header"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

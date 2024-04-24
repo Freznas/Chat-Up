@@ -4,6 +4,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_blue"
     tools:context=".ProfileActivity">
+
+    <TextView
+        android:id="@+id/profile_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/profile_view_profile_header_marginstart"
+        android:layout_marginTop="@dimen/profile_view_profile_header_margintop"
+        android:text="@string/profile_view_header"
+        android:textColor="@color/view_text_black"
+        android:textSize="@dimen/font_header"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/profile_view_profile_image_width"
+        android:layout_height="@dimen/profile_view_profile_image_height"
+        android:src="@drawable/vendetta"
+        app:layout_constraintBottom_toTopOf="@+id/profile_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_username" />
+
+    <EditText
+        android:id="@+id/profile_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/profile_view_profile_tv_description"
+        android:text="@string/profile_view_profile_text"
+        android:textColor="@color/view_text_black"
+        android:textSize="@dimen/font_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/profile_view_profile_btn_marginhori"
+        android:layout_marginBottom="@dimen/profile_view_profile_btn_marginbott"
+        android:background="@drawable/button_design_blue"
+        android:text="@string/profile_view_btn_addfriend"
+        android:textColor="@color/button_text_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/profile_view_profile_btn_marginhori"
+        android:layout_marginBottom="@dimen/profile_view_profile_btn_marginbott"
+        android:background="@drawable/button_design_blue"
+        android:text="@string/profile_view_remove"
+        android:textColor="@color/button_text_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_chat_Up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/profile_view_profile_btn_marginbott"
+        android:background="@drawable/button_design_blue"
+        android:text="@string/profile_view_btn_chatup"
+        android:textColor="@color/button_text_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="152dp"
+        android:background="@drawable/button_design_blue"
+        android:text="Update"
+        android:textColor="@color/button_text_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/button_design_blue"
+        android:text="Delete"
+        android:textColor="@color/button_text_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
